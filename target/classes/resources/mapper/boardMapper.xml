@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.boardMapper">
+
+    <select id="getBoardList" resultType="com.good.model.BoardVO">
+		select bid,cate_cd,title,content,tag,view_cnt,reg_id,reg_gt,edit_gt
+		from board
+		where bid=#{bid}
+	</select>
+
+    <select id="getBoardContent" resultType="com.good.model.BoardVO" parameterType = "com.good.model.BoardVO">
+	  SELECT
+			BID, CATE_CD, TITLE, CONTENT, TAG, VIEW_CNT, REG_ID, REG_GT, EDIT_gT
+		FROM
+			board
+		WHERE
+			bid = #{bid}
+	</select>
+
+    <insert id="insertBoard" parameterType="com.good.model.BoardVO">
+		insert into board(bid,cate_cd,title,content,tag,view_cnt,reg_id,reg_gt,edit_gt)
+		values(#{bid},#{cate_cd},#{title},#{content},#{tag},0,#{reg_id},now(),now())
+	</insert>
+
+    <update id="updateBoard" parameterType="com.good.model.BoardVO">
+		update board set
+		cate_cd =#{cate_cd},title=#{title},content=#{content},tag=#{tag},edit_gt = now()
+		where bid=#{bid}
+	</update>
+
+    <delete id="deleteBoard" parameterType="int">
+	 	delete from board where bid =#{bid}
+	</delete>
+
+    <update id = "updateViewCnt" parameterType = "com.good.model.BoardVO">
+		update board set
+		view_cnt = view_cnt+1
+		where
+		bid = #{bid}
+	</update>
+
+</mapper>
