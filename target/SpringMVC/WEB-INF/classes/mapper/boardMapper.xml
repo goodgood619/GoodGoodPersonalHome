@@ -8,24 +8,23 @@
     <select id="getBoardList" resultType="com.good.model.BoardVO">
 		select bid,cate_cd,title,content,tag,view_cnt,reg_id,reg_gt,edit_gt
 		from board
-		where bid=#{bid}
 	</select>
 
     <select id="getBoardContent" resultType="com.good.model.BoardVO" parameterType = "com.good.model.BoardVO">
 	  SELECT
-			BID, CATE_CD, TITLE, CONTENT, TAG, VIEW_CNT, REG_ID, REG_GT, EDIT_gT
+			BID, CATE_CD, TITLE, CONTENT, TAG, VIEW_CNT, REG_ID, REG_gt, EDIT_gt
 		FROM
 			board
 		WHERE
 			bid = #{bid}
 	</select>
 
-    <insert id="insertBoard" parameterType="com.good.model.BoardVO">
+    <insert id = "insertBoard" parameterType="com.good.model.BoardVO">
 		insert into board(bid,cate_cd,title,content,tag,view_cnt,reg_id,reg_gt,edit_gt)
 		values(#{bid},#{cate_cd},#{title},#{content},#{tag},0,#{reg_id},now(),now())
 	</insert>
 
-    <update id="updateBoard" parameterType="com.good.model.BoardVO">
+    <update id = "updateBoard" parameterType="com.good.model.BoardVO">
 		update board set
 		cate_cd =#{cate_cd},title=#{title},content=#{content},tag=#{tag},edit_gt = now()
 		where bid=#{bid}

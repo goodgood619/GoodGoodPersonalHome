@@ -3,14 +3,19 @@ package com.good.dao;
 import com.good.model.BoardVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
+
 import javax.inject.Inject;
 import java.util.List;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO{
 
-    @Inject
     private SqlSession sqlSession;
+
+    @Inject
+    public BoardDAOImpl(SqlSession sqlSession) {
+        this.sqlSession = sqlSession;
+    }
 
     @Override
     public List<BoardVO> getBoardList() throws Exception {

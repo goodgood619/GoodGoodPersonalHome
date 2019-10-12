@@ -8,7 +8,10 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <mvc:annotation-driven/>
-    <context:component-scan base-package="com.good.controller"/>
+    <context:component-scan base-package="com.good.service"/>
+    <context:component-scan base-package="com.good.model"/>
+    <context:component-scan base-package="com.good.dao"/>
+    <context:component-scan base-package="com.good.domain"/>
     <!--dataSource 객체 설정 -->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
@@ -18,7 +21,7 @@
     </bean>
 
     <!-- SqlSessionFactory 객체 설정 -->
-    <bean id="SqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <property name="mapperLocations" value="classpath:mapper/**/*Mapper.xml" />
     </bean>
@@ -26,7 +29,7 @@
 
     <!-- SqlSession Template 설정 -->
     <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
-        <constructor-arg name="sqlSessionFactory" ref="SqlSessionFactory" />
+        <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" />
     </bean>
 
 

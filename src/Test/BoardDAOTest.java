@@ -3,7 +3,6 @@ import com.good.model.BoardVO;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -13,10 +12,11 @@ import java.util.List;
 @ContextConfiguration(locations = {"classpath:spring/applicationContext.xml","classpath:spring/appServlet/dispatcher-servlet.xml"})
 public class BoardDAOTest {
 
-    @Autowired
+    @Inject
     private BoardDAO boardDAO;
 
-    @Test
+
+    @Test @Ignore
     public void testGetBoardList() throws Exception {
         List<BoardVO> boardList = boardDAO.getBoardList();
         System.out.println("\n Board List \n");
@@ -29,8 +29,7 @@ public class BoardDAOTest {
         }
     }
 
-    @Test
-    @Ignore
+    @Test @Ignore
     public void testGetBoardContent() throws Exception {
         BoardVO boardVO = boardDAO.getBoardContent(1);
         System.out.println("\n Board List \n");
@@ -41,15 +40,14 @@ public class BoardDAOTest {
             System.out.println("글태그 : "+boardVO.getTag());
             System.out.println("조회수 : "+boardVO.getView_cnt());
             System.out.println("작성자 : "+boardVO.getReg_id());
-            System.out.println("작성일 : "+boardVO.getReg_dt());
-            System.out.println("수정일 : "+boardVO.getEdit_dt());
+            System.out.println("작성일 : "+boardVO.getReg_gt());
+            System.out.println("수정일 : "+boardVO.getEdit_gt());
         } else {
             System.out.println("데이터가 없습니다");
         }
     }
 
-    @Test
-    @Ignore
+    @Test @Ignore
     public void testInsertBoard() throws Exception {
         BoardVO boardVO = new BoardVO();
         boardVO.setBid(1);
@@ -67,8 +65,7 @@ public class BoardDAOTest {
         }
     }
 
-    @Test
-    @Ignore
+    @Test @Ignore
     public void testUpdateBoard() throws Exception {
         BoardVO boardVO = new BoardVO();
         boardVO.setBid(1);
@@ -100,7 +97,7 @@ public class BoardDAOTest {
 
     @Test @Ignore
     public void testUpdateViewCnt() throws Exception {
-        int result = boardDAO.updateViewCnt(1);
+        int result = boardDAO.updateViewCnt(0);
         System.out.println("\n Update View count result \n");
         if (result > 0) {
             System.out.println("\n 게시물 조회수 업데이트 성공 ");
