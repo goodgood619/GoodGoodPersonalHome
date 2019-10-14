@@ -59,6 +59,7 @@
                 <label for="content">내용</label>
                 <form:textarea path="content" rows="4" id="content" placeholder="내용을 입력해 주세요" />
             </div>
+
             <div class="mb-3">
                 <label for="tag">TAG</label>
                 <form:input path="tag" class="form-control"  id="tag" placeholder="태그를 입력해 주세요"/>
