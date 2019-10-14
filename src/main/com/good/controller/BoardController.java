@@ -4,6 +4,7 @@ import com.good.model.BoardVO;
 import com.good.service.BoardService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -26,15 +27,48 @@ public class BoardController {
         return "board/index";
     }
 
+    // ModelAttribute를 추가시킨 이유는, Jsp에서 spring form 태그를 썼고, ModelAttribute를 썼기때문에, 안쓰더라도 무조건 선언해야함
     @GetMapping("/boardForm")
-    public String boardForm(){
+    public String boardForm(@ModelAttribute("boardVO") BoardVO boardVO,Model model){
         return "board/boardForm";
     }
 
     @RequestMapping(value="/saveBoard",method = RequestMethod.POST)
-    public String saveBoard(@ModelAttribute("BoardVO") BoardVO boardVO, RedirectAttributes redirectAttributes) throws Exception{
-        boardVO.setCate_cd("1");
-        boardService.insertBoard(boardVO);
+    public String saveBoard(@ModelAttribute("boardVO") BoardVO boardVO, @RequestParam("mode") String mode, RedirectAttributes redirectAttributes,Model model) throws Exception{
+        if(mode.equals("edit")){
+            int bid = boardVO.getBid();
+            BoardVO boardVO1 = boardService.justgetBoardContent(bid);
+            boardVO.setCate_cd(boardVO1.getCate_cd());
+            boardVO.setView_cnt(boardVO1.getView_cnt());
+            boardVO.setEdit_gt(boardVO1.getEdit_gt());
+            boardVO.setReg_gt(boardVO1.getReg_gt());
+            // set을 해준이유는 값이 null로 넘어오기때문임, 이해는 잘안감 ㅇㅇ 찾아봐야 할듯
+            boardService.updateBoard(boardVO);
+        }
+        else {
+            boardVO.setCate_cd("1");
+            boardService.insertBoard(boardVO);
+        }
+        return "redirect:/board/getBoardList";
+    }
+
+    @RequestMapping(value = "/getBoardContent",method = RequestMethod.GET)
+    public String getBoardContent(Model model,@RequestParam("bid") int bid) throws Exception {
+        model.addAttribute("boardContent",boardService.updategetBoardContent(bid));
+        return "board/boardContent";
+    }
+
+    @RequestMapping(value = "/editForm", method = RequestMethod.GET)
+    public String editForm(@RequestParam ("bid") int bid, @RequestParam("mode") String mode, Model model) throws Exception{
+        model.addAttribute("boardContent",boardService.justgetBoardContent(bid));
+        model.addAttribute("mode",mode);
+        model.addAttribute("boardVO",new BoardVO());
+        return "board/boardForm";
+    }
+
+    @RequestMapping(value = "/deleteBoard", method = RequestMethod.GET)
+    public String deleteBoard(RedirectAttributes redirectAttributes,@RequestParam("bid") int bid) throws Exception{
+        boardService.deleteBoard(bid);
         return "redirect:/board/getBoardList";
     }
 }

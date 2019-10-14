@@ -17,6 +17,11 @@
         e.preventDefault();
         location.href = "${pageContext.request.contextPath}/board/boardForm";
     });
+    function x(bid) {
+        var url =  "${pageContext.request.contextPath}/board/getBoardContent";
+        url = url + "?bid= "+bid;
+        location.href = url;
+    }
 </script>
 <body>
 <h2>board list</h2>
@@ -48,7 +53,11 @@
             <c:forEach var = "list" items ="${boardList}">
                 <tr>
                     <td><c:out value = "${list.bid}"/></td>
-                    <td><c:out value = "${list.title }"/></td>
+                    <td>
+                        <a href="#" onclick="x(<c:out value="${list.bid}"/>)">
+                            <c:out value = "${list.title }"/>
+                        </a>
+                    </td>
                     <td><c:out value = "${list.reg_id}"/></td>
                     <td><c:out value = "${list.view_cnt}"/></td>
                     <td><c:out value = "${list.reg_gt}"/></td>
@@ -58,5 +67,6 @@
     </c:choose>
     </tbody>
 </table>
+<div> <button type="button" class = "btn btn-sm btn-primary " id="btnWriteForm">글쓰기</button></div>
 </body>
 </html>
