@@ -13,18 +13,61 @@
     <title>board</title>
 </head>
 <script>
+    <c:url var="getBoardList" value="/board/getBoardList">
+        <c:param name="page" value="${pagination.page}"/>
+        <c:param name="range" value="${pagination.range}"/>
+    </c:url>
+
     $(document).on('click', '#btnWriteForm', function(e){
         e.preventDefault();
         location.href = "${pageContext.request.contextPath}/board/boardForm";
     });
+    $(document).on('click','#btnSearch',function (e) {
+        e.preventDefault();
+        var url = "${pageContext.request.contextPath}/board/getBoardList";
+        url = url + "?searchType="+$('#searchType').val();
+        url = url +"&keyword="+$('#keyword').val();
+        location.href = url;
+        console.log(url);
+    });
+
     function x(bid) {
         var url =  "${pageContext.request.contextPath}/board/getBoardContent";
         url = url + "?bid= "+bid;
         location.href = url;
     }
+
+    //이전 버튼 이벤트
+    function fn_prev(page, range, rangeSize) {
+        var page = ((range - 2) * rangeSize) + 1;
+        var range = range - 1;
+
+        <!--c:url 적용(16~19번째줄) -->
+        var url = "${pageContext.request.contextPath}/board/getBoardList";
+        url = url + "?page=" + page;
+        url = url + "&range=" + range;
+        location.href = url;
+    }
+    //페이지 번호 클릭
+    function fn_pagination(page, range, rangeSize, searchType, keyword) {
+        var url = "${pageContext.request.contextPath}/board/getBoardList";
+        url = url + "?page=" + page;
+        url = url + "&range=" + range;
+        location.href = url;
+    }
+    //다음 버튼 이벤트
+    function fn_next(page, range, rangeSize) {
+        var page = parseInt((range * rangeSize)) + 1;
+        var range = parseInt(range) + 1;
+        var url = "${pageContext.request.contextPath}/board/getBoardList";
+        url = url + "?page=" + page;
+        url = url + "&range=" + range;
+        location.href = url;
+    }
 </script>
 <body>
 <h2>board list</h2>
+<article>
 <table>
     <colgroup>
         <col style ="width:5%;"/>
@@ -33,7 +76,6 @@
         <col style = "width:10%;"/>
         <col style = "width:10%;"/>
     </colgroup>
-
     <thead>
     <tr>
         <th>NO</th>
@@ -68,5 +110,39 @@
     </tbody>
 </table>
 <div> <button type="button" class = "btn btn-sm btn-primary " id="btnWriteForm">글쓰기</button></div>
+    <!-- pagination{s} -->
+    <div id="paginationBox">
+        <ul class="pagination">
+            <c:if test="${pagination.prev}">
+                <li class="page-item"><a class="page-link" href="#" onClick="fn_prev('${pagination.page}', '${pagination.range}', '${pagination.rangeSize}')">Previous</a></li>
+            </c:if>
+            <c:forEach begin="${pagination.startPage}" end="${pagination.endPage}" var="idx">
+                <li class="page-item <c:out value="${pagination.page == idx ? 'active' : ''}"/> "><a class="page-link" href="#" onClick="fn_pagination('${idx}', '${pagination.range}', '${pagination.rangeSize}')"> ${idx} </a></li>
+            </c:forEach>
+            <c:if test="${pagination.next}">
+                <li class="page-item"><a class="page-link" href="#" onClick="fn_next('${pagination.range}',
+                        '${pagination.range}', '${pagination.rangeSize}')" >Next</a></li>
+            </c:if>
+        </ul>
+    </div>
+    <!-- pagination{e} -->
+    <!-- search{s} -->
+    <div class="form-group row justify-content-center">
+        <div class="w100" style="padding-right:10px">
+            <select class="form-control form-control-sm" name="searchType" id="searchType">
+                <option value="title">제목</option>
+                <option value="content">본문</option>
+                <option value="reg_id">작성자</option>
+            </select>
+        </div>
+        <div class="w300" style="padding-right:10px">
+            <input type="text" class="form-control form-control-sm" name="keyword" id="keyword">
+        </div>
+        <div>
+            <button class="btn btn-sm btn-primary" name="btnSearch" id="btnSearch">검색</button>
+        </div>
+    </div>
+    <!-- search{e} -->
+</article>
 </body>
 </html>

@@ -1,14 +1,19 @@
 package com.good.service;
 
+import com.good.controller.NotFoundException;
 import com.good.dao.BoardDAO;
+import com.good.model.BoardSearch;
 import com.good.model.BoardVO;
+import com.good.model.Pagination;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional
 public class BoardServiceImpl implements BoardService{
     private final BoardDAO boardDAO;
 
@@ -18,8 +23,8 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public List<BoardVO> getBoardList() throws Exception {
-        return boardDAO.getBoardList();
+    public List<BoardVO> getBoardList(BoardSearch boardSearch) throws Exception {
+        return boardDAO.getBoardList(boardSearch);
     }
 
     @Override
@@ -27,6 +32,7 @@ public class BoardServiceImpl implements BoardService{
         boardDAO.insertBoard(boardVO);
     }
 
+    @Transactional
     @Override
     public BoardVO updategetBoardContent(int bid) throws Exception {
         boardDAO.updateViewCnt(bid);
@@ -46,6 +52,11 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public void deleteBoard(int bid) throws Exception {
         boardDAO.deleteBoard(bid);
+    }
+
+    @Override
+    public int getBoardListCnt(BoardSearch boardSearch) throws Exception {
+        return boardDAO.getBoardListCnt(boardSearch);
     }
 
 }

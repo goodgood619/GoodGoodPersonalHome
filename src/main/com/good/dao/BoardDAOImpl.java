@@ -1,6 +1,8 @@
 package com.good.dao;
 
+import com.good.model.BoardSearch;
 import com.good.model.BoardVO;
+import com.good.model.Pagination;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -18,8 +20,8 @@ public class BoardDAOImpl implements BoardDAO{
     }
 
     @Override
-    public List<BoardVO> getBoardList() throws Exception {
-        return sqlSession.selectList("mapper.boardMapper.getBoardList");
+    public List<BoardVO> getBoardList(BoardSearch boardSearch) throws Exception {
+        return sqlSession.selectList("mapper.boardMapper.getBoardList",boardSearch);
     }
 
     @Override
@@ -45,5 +47,11 @@ public class BoardDAOImpl implements BoardDAO{
     @Override
     public int updateViewCnt(int bid) throws Exception {
         return sqlSession.update("mapper.boardMapper.updateViewCnt",bid);
+    }
+
+    //총 게시글 갯수확인
+    @Override
+    public int getBoardListCnt(BoardSearch boardSearch) throws Exception {
+        return sqlSession.selectOne("mapper.boardMapper.getBoardListCnt");
     }
 }

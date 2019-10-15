@@ -5,12 +5,43 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.boardMapper">
 
-    <select id="getBoardList" resultType="com.good.model.BoardVO">
+    <select id = "getBoardList" resultType="com.good.model.BoardVO" parameterType="com.good.model.BoardSearch">
 		select bid,cate_cd,title,content,tag,view_cnt,reg_id,reg_gt,edit_gt
 		from board
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="searchType=='title' and keyword!= null and keyword!='' ">
+				and title like concat('%',#{keyword},'%')
+			</if>
+			<if test="searchType=='content' and keyword!= null and keyword!=''">
+				and content like concat('%',#{keyword},'%')
+			</if>
+			<if test="searchType=='reg_id' and keyword!=null and keyword!='' ">
+				and reg_id like concat('%',#{keyword},'%')
+			</if>
+		</trim>
+		limit #{startList}, #{listSize}
 	</select>
 
-    <select id="getBoardContent" resultType="com.good.model.BoardVO" parameterType = "com.good.model.BoardVO">
+	<select id = "getBoardListCnt" resultType="int" parameterType="com.good.model.BoardSearch">
+		select count(*) as listCnt
+		from board
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="keyword != null and keyword != '' ">
+
+				<if test="searchType=='title'">
+					and title like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType=='content'">
+					and content like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType=='reg_id'">
+					and reg_id like concat('%', #{keyword}, '%')
+				</if>
+			</if>
+		</trim>
+	</select>
+
+    <select id = "getBoardContent" resultType="com.good.model.BoardVO" parameterType = "com.good.model.BoardVO">
 	  SELECT
 			BID, CATE_CD, TITLE, CONTENT, TAG, VIEW_CNT, REG_ID, REG_gt, EDIT_gt
 		FROM

@@ -1,6 +1,8 @@
 package com.good.controller;
 
+import com.good.model.BoardSearch;
 import com.good.model.BoardVO;
+import com.good.model.Pagination;
 import com.good.service.BoardService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,8 +24,16 @@ public class BoardController {
     }
 
     @GetMapping("/getBoardList")
-    public String getBoardList(Model model) throws Exception{
-        model.addAttribute("boardList", boardService.getBoardList());
+    public String getBoardList(Model model,@RequestParam(required = false,defaultValue = "1") int page,@RequestParam(required = false,defaultValue = "1") int range,@RequestParam(required = false,defaultValue = "title") String searchType,@RequestParam(required = false) String keyword) throws Exception {
+        BoardSearch boardSearch = new BoardSearch();
+        boardSearch.setKeyword(keyword);
+        boardSearch.setSearchType(searchType);
+        //전체 게시글 갯수
+        int listCnt = boardService.getBoardListCnt(boardSearch);
+        // 객체 생성
+        boardSearch.pageinfo(page,range,listCnt);
+        model.addAttribute("pagination",boardSearch);
+        model.addAttribute("boardList", boardService.getBoardList(boardSearch));
         return "board/index";
     }
 
@@ -71,4 +81,6 @@ public class BoardController {
         boardService.deleteBoard(bid);
         return "redirect:/board/getBoardList";
     }
+
+
 }
