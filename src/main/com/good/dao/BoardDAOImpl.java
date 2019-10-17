@@ -3,6 +3,7 @@ package com.good.dao;
 import com.good.model.BoardSearch;
 import com.good.model.BoardVO;
 import com.good.model.Pagination;
+import com.good.model.ReplyVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -53,5 +54,25 @@ public class BoardDAOImpl implements BoardDAO{
     @Override
     public int getBoardListCnt(BoardSearch boardSearch) throws Exception {
         return sqlSession.selectOne("mapper.boardMapper.getBoardListCnt");
+    }
+
+    @Override
+    public List<ReplyVO> getReplyList(int bid) throws Exception {
+        return sqlSession.selectList("mapper.boardreplyMapper.getReplyList",bid);
+    }
+
+    @Override
+    public int saveReply(ReplyVO replyVO) throws Exception {
+        return sqlSession.insert("mapper.boardreplyMapper.saveReply",replyVO);
+    }
+
+    @Override
+    public int updateReply(ReplyVO replyVO) throws Exception {
+        return sqlSession.update("mapper.boardreplyMapper.updateReply",replyVO);
+    }
+
+    @Override
+    public int deleteReply(int rid) throws Exception {
+        return sqlSession.delete("mapper.boardreplyMapper.deleteReply",rid);
     }
 }

@@ -13,6 +13,8 @@
 <html>
 <head>
     <title>Board</title>
+    <script src="//cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
+
     <script>
         $(document).on('click','#btnSave',function (e) {
             e.preventDefault();
@@ -27,12 +29,13 @@
         $(document).ready(function () {
             var mode = '<c:out value="${mode}"/>';
             if(mode === 'edit'){ // === 3개?? 띠용
+                var t = jQuery(${boardContent.content}).html(${boardContent.content}).text();
                 $("#reg_id").prop('readonly', true);
                 $("input:hidden[name='bid']").val(<c:out value="${boardContent.bid}"/>);
                 $("input:hidden[name='mode']").val('<c:out value="${mode}"/>');
                 $("#reg_id").val('<c:out value="${boardContent.reg_id}"/>');
                 $("#title").val('<c:out value="${boardContent.title}"/>');
-                $("#content").val('<c:out value="${boardContent.content}"/>');
+               $("#content").val('<c:out value="${boardContent.content}"/>');
                 $("#tag").val('<c:out value="${boardContent.tag}"/>');
             }
         })
@@ -43,7 +46,6 @@
     <div class="container" role="main">
         <h2>board Form</h2>
         <form:form name="form" id="form" role="form" modelAttribute="boardVO" method="post" action="${pageContext.request.contextPath}/board/saveBoard">
-
             <form:hidden path="bid"/>
             <input type="hidden" name = "mode"/>
 
@@ -57,7 +59,10 @@
             </div>
             <div class="mb-3">
                 <label for="content">내용</label>
-                <form:textarea path="content" rows="4" id="content" placeholder="내용을 입력해 주세요" />
+                <form:textarea path="content" rows="4" id="content" placeholder="내용을 입력해 주세요" htmlEscape="true"/>
+                <script>
+                    CKEDITOR.replace('content');
+                </script>
             </div>
 
             <div class="mb-3">

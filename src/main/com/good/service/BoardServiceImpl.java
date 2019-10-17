@@ -5,6 +5,7 @@ import com.good.dao.BoardDAO;
 import com.good.model.BoardSearch;
 import com.good.model.BoardVO;
 import com.good.model.Pagination;
+import com.good.model.ReplyVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,6 +58,26 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public int getBoardListCnt(BoardSearch boardSearch) throws Exception {
         return boardDAO.getBoardListCnt(boardSearch);
+    }
+
+    @Override
+    public List<ReplyVO> getReplyList(int bid) throws Exception {
+        return boardDAO.getReplyList(bid);
+    }
+
+    @Override
+    public int saveReply(ReplyVO replyVO) throws Exception {
+        return boardDAO.saveReply(replyVO);
+    }
+
+    @Override
+    public int updateReply(ReplyVO replyVO) throws Exception {
+        return boardDAO.updateReply(replyVO);
+    }
+
+    @Override
+    public int deleteReply(int rid) throws Exception {
+        return boardDAO.deleteReply(rid);
     }
 
 }

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.boardreplyMapper">
+
+    <select id = "getReplyList" resultType="com.good.model.ReplyVO" parameterType="int">
+        select rid,bid,content,reg_id,edit_gt
+        from board_reply
+        where bid = #{bid}
+        order by reg_gt desc
+    </select>
+
+    <insert id = "saveReply" parameterType="com.good.model.ReplyVO">
+        insert into board_reply(rid,bid,content,reg_id,reg_gt,edit_gt)
+        values(#{rid},#{bid},#{content},#{reg_id},now(),now())
+    </insert>
+
+    <update id = "updateReply" parameterType="com.good.model.ReplyVO" >
+        update board_reply
+        set content = #{content},edit_gt = now()
+        where rid = #{rid}
+    </update>
+
+    <delete id = "deleteReply" parameterType="int">
+        delete from board_reply
+        where rid = #{rid}
+    </delete>
+
+</mapper>

@@ -3,6 +3,7 @@ package com.good.controller;
 import com.good.model.BoardSearch;
 import com.good.model.BoardVO;
 import com.good.model.Pagination;
+import com.good.model.ReplyVO;
 import com.good.service.BoardService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -65,6 +66,7 @@ public class BoardController {
     @RequestMapping(value = "/getBoardContent",method = RequestMethod.GET)
     public String getBoardContent(Model model,@RequestParam("bid") int bid) throws Exception {
         model.addAttribute("boardContent",boardService.updategetBoardContent(bid));
+        model.addAttribute("replyVO",new ReplyVO());
         return "board/boardContent";
     }
 
