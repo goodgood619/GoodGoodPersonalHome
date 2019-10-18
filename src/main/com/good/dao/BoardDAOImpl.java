@@ -53,7 +53,7 @@ public class BoardDAOImpl implements BoardDAO{
     //총 게시글 갯수확인
     @Override
     public int getBoardListCnt(BoardSearch boardSearch) throws Exception {
-        return sqlSession.selectOne("mapper.boardMapper.getBoardListCnt");
+        return sqlSession.selectOne("mapper.boardMapper.getBoardListCnt",boardSearch);
     }
 
     @Override

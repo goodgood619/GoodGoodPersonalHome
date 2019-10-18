@@ -26,16 +26,22 @@
            location.href = "${pageContext.request.contextPath}/board/getBoardList";
         });
 
+
+        function ConvertSystemSourcetoHtml(str){
+            str = str.replaceAll(/</g, '&lt;');
+            str = str.replaceAll(/>/g,'&gt;');
+            str = str.replaceAll(/(\n|\r\n)/g,'<br>');
+            return str;
+        }
         $(document).ready(function () {
             var mode = '<c:out value="${mode}"/>';
             if(mode === 'edit'){ // === 3개?? 띠용
-                var t = jQuery(${boardContent.content}).html(${boardContent.content}).text();
                 $("#reg_id").prop('readonly', true);
                 $("input:hidden[name='bid']").val(<c:out value="${boardContent.bid}"/>);
                 $("input:hidden[name='mode']").val('<c:out value="${mode}"/>');
                 $("#reg_id").val('<c:out value="${boardContent.reg_id}"/>');
                 $("#title").val('<c:out value="${boardContent.title}"/>');
-               $("#content").val('<c:out value="${boardContent.content}"/>');
+                $("#content").html(ConvertSystemSourcetoHtml('${boardContent.content}'));
                 $("#tag").val('<c:out value="${boardContent.tag}"/>');
             }
         })
