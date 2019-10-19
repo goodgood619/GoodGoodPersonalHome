@@ -160,7 +160,7 @@
                 <option value="reg_id">작성자</option>
             </select>
         </div>
-        <div class="w300" style="padding-right:10px">
+        <div class="w300" style="padding-right:7px">
             <label for="keyword"></label><input type="text" class="form-control form-control-sm" name="keyword" id="keyword" value='<c:out value="${pagination.keyword}"/>'/>
         </div>
         <div>
