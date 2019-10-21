@@ -17,6 +17,11 @@
         where id = #{id}
     </select>
 
+    <select id = "getLoginInfo" resultType="com.good.model.UserVO" parameterType="hashMap">
+        select id,pwd
+        from board_user
+        where id = #{id} and pwd = #{pwd}
+    </select>
     <insert id = "insertUser" parameterType="com.good.model.UserVO">
         insert into board_user(id,name,pwd,email,reg_gt)
         values(#{id},#{name},#{pwd},#{email},now())

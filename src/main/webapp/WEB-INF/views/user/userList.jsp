@@ -49,11 +49,11 @@
                     <c:when test="${!empty userList}">
                         <c:forEach var="list" items="${userList}">
                             <tr>
-                                <td><c:out value="${list.uid}"/></td>
+                                <td><c:out value="${list.id}"/></td>
                                 <td><c:out value="${list.name}"/></td>
                                 <td><c:out value="${list.email}"/></td>
                                 <td><c:out value="${list.grade}"/></td>
-                                <td><c:out value="${list.reg_dt}"/></td>
+                                <td><c:out value="${list.reg_gt}"/></td>
                             </tr>
                         </c:forEach>
                     </c:when>

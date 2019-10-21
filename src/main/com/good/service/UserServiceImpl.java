@@ -5,6 +5,7 @@ import com.good.model.UserVO;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -36,5 +37,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(String id) throws Exception {
         userDAO.deleteUser(id);
+    }
+
+    @Override
+    public UserVO getLoginInfo(HashMap<String, Object> hashMap) throws Exception {
+        return userDAO.getLoginInfo(hashMap);
     }
 }

@@ -5,6 +5,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
+import java.util.HashMap;
 import java.util.List;
 
 @Repository
@@ -35,5 +36,10 @@ public class UserDAOImpl implements UserDAO{
     @Override
     public int deleteUser(String id) throws Exception {
         return sqlSession.delete("mapper.boarduserMapper.deleteUser",id);
+    }
+
+    @Override
+    public UserVO getLoginInfo(HashMap<String,Object> map) throws Exception {
+        return sqlSession.selectOne("mapper.boarduserMapper.getLoginInfo",map);
     }
 }
