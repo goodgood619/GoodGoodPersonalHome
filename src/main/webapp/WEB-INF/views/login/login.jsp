@@ -16,12 +16,20 @@
         function fn_btnSignupclick() {
             location.href = "${pageContext.request.contextPath}/login/signupForm";
         }
-        $("#doLogin").keypress(function (e) {
-            if(e.which == 13){
-                $('#form').submit();
-            }
-
-        })
+        $(document).on('click','#doLogin',function (e) {
+            $('#form').submit();
+        });
+        $(document).ready(function () {
+            $("#form").keypress(function (e) {
+                keycode = e.keyCode || e.charCode || e.which ;
+                if (keycode === 13)    //keyCode for the Enter / Return key
+                {
+                    var defaultbutton = $(this).attr("DefaultButton");
+                    $(defaultbutton).click();
+                    return false;
+                }
+            });
+        });
     </script>
 </head>
 <body>
@@ -30,7 +38,7 @@
         <div class="card">
             <div class="card-header">Login</div>
             <div class="card-body">
-                <form:form name="form" id="form" class="Loginform" role="form" modelAttribute="userVO" method="post" action="${pageContext.request.contextPath}/login/doLogin">
+                <form:form name="form" id="form" class="Loginform" role="form" modelAttribute="userVO" method="post" action="${pageContext.request.contextPath}/login/doLogin" DefaultButton='#doLogin'>
                     <div class="form-group row"> <label for="id" class="col-md-3 col-form-label text-md-right">아이디</label>
                         <div class="col-md-5">
                             <form:input path="id" id="id" class="form-control" placeholder="아이디을 입력해 주세요" />
