@@ -37,7 +37,7 @@ public class LoginController {
         hashMap.put("pwd",userVO.getPwd());
         UserVO resultuserVO = userService.getLoginInfo(hashMap);
         if(resultuserVO != null){
-            return "redirect:/user/getUserList";
+            return "redirect:/board/getBoardList";
         }
         else {
             model.addAttribute("status","false");

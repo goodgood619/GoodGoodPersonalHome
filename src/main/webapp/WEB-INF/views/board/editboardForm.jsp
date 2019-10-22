@@ -1,32 +1,49 @@
+
 <%--
   Created by IntelliJ IDEA.
   User: USER
-  Date: 2019-10-12
-  Time: 오후 11:21
+  Date: 2019-10-22
+  Time: 오후 8:34
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/WEB-INF/views/layout/header.jsp"%>
 <%@ taglib prefix="form" uri = "http://www.springframework.org/tags/form" %>
-
 <html>
 <head>
     <title>Board</title>
     <script src="//cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
-
     <script>
-        $(document).on('click','#btnSave',function (e) {
+        $(document).on('click','#btnModify',function (e) {
             e.preventDefault();
-            $("#form").submit();
+            $("#form2").submit();
         });
-
         $(document).on('click','#btnList',function (e) {
-           e.preventDefault();
-           location.href = "${pageContext.request.contextPath}/board/getBoardList";
+            e.preventDefault();
+            location.href = "${pageContext.request.contextPath}/board/getBoardList";
         });
 
+        $(document).ready(function () {
+            var mode = '<c:out value="${mode}"/>';
+            if(mode === 'edit'){ // === 3개?? 띠용
+                $("#reg_id").prop('readonly', true);
+                $("input:hidden[name='bid']").val(<c:out value="${boardContent.bid}"/>);
+                $("input:hidden[name='mode']").val('<c:out value="${mode}"/>');
+                $("#reg_id").val('<c:out value="${boardContent.reg_id}"/>');
+                $("#title").val('<c:out value="${boardContent.title}"/>');
+                $("#content").html(ConvertSystemSourcetoHtml('${boardContent.content}'));
+                $("#tag").val('<c:out value="${boardContent.tag}"/>');
+            }
+        });
 
+        function ConvertSystemSourcetoHtml(str){
+
+            str = str.replace(/</g, '&lt;');
+            str = str.replace(/>/g,'&gt;');
+            var list = $.parseHTML(str);
+            return list;
+        }
 
         $("#board_img").change(function () {
             if(this.files && this.files[0]) {
@@ -43,7 +60,7 @@
 <article>
     <div class="container" role="main">
         <h2>board Form</h2>
-        <form:form name="form" id="form" role="form" modelAttribute="boardVO" method="post" action="${pageContext.request.contextPath}/board/saveBoard" enctype="multipart/form-data">
+        <form:form name="form2" id="form2" role="form2" modelAttribute="boardVO" method="post" action="${pageContext.request.contextPath}/board/saveBoard" enctype="multipart/form-data">
             <form:hidden path="bid"/>
             <input type="hidden" name = "mode"/>
 
@@ -70,13 +87,15 @@
             <div class = "mb-3">
                 <label for = "board_img">이미지</label>
                 <input type="file" id="board_img" name="file"/>
-                <div class = "select_img"><img src="" alt=""/></div>
+                <img src="${pageContext.request.contextPath}/resources/${boardContent.board_img}"/>
+                <img src ="${pageContext.request.contextPath}/resources/${boardContent.boardthumb_img}"/>
+
 
             </div>
 
         </form:form>
         <div>
-            <button type="button" class="btn btn-sm btn-primary" id="btnSave">저장</button>
+            <button type="button" class="btn btn-sm btn-primary" id="btnModify">수정</button>
             <button type="button" class="btn btn-sm btn-primary" id="btnList">목록</button>
         </div>
     </div>

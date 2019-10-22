@@ -10,6 +10,24 @@ public class BoardVO {
     private String reg_id;
     private String reg_gt;
     private String edit_gt;
+    private String board_img;
+    private String boardthumb_img;
+
+    public String getBoardthumb_img() {
+        return boardthumb_img;
+    }
+
+    public void setBoardthumb_img(String boardthumb_img) {
+        this.boardthumb_img = boardthumb_img;
+    }
+
+    public String getBoard_img() {
+        return board_img;
+    }
+
+    public void setBoard_img(String board_img) {
+        this.board_img = board_img;
+    }
 
     public int getBid() {return bid; }
     public void setBid(int bid) { this.bid = bid; }
@@ -29,4 +47,10 @@ public class BoardVO {
     public void setReg_gt(String reg_gt){this.reg_gt = reg_gt;}
     public String getEdit_gt(){return edit_gt;}
     public void setEdit_gt(String edit_gt){this.edit_gt = edit_gt;}
+
+    public String eraseStringContent(String s){
+
+        s = s.replaceAll("(\r\n|\r|\n|\n\r)", " ");
+        return s;
+    }
 }

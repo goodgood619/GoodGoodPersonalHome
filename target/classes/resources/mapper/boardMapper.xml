@@ -43,7 +43,7 @@
 
     <select id = "getBoardContent" resultType="com.good.model.BoardVO" parameterType = "com.good.model.BoardVO">
 	  SELECT
-			BID, CATE_CD, TITLE, CONTENT, TAG, VIEW_CNT, REG_ID, REG_gt, EDIT_gt
+			BID, CATE_CD, TITLE, CONTENT, TAG, VIEW_CNT, REG_ID, REG_gt, EDIT_gt,board_img,boardthumb_img
 		FROM
 			board
 		WHERE
@@ -51,13 +51,13 @@
 	</select>
 
     <insert id = "insertBoard" parameterType="com.good.model.BoardVO">
-		insert into board(bid,cate_cd,title,content,tag,view_cnt,reg_id,reg_gt,edit_gt)
-		values(#{bid},#{cate_cd},#{title},#{content},#{tag},0,#{reg_id},now(),now())
+		insert into board(bid,cate_cd,title,content,tag,view_cnt,reg_id,reg_gt,edit_gt,board_img,boardthumb_img)
+		values(#{bid},#{cate_cd},#{title},#{content},#{tag},0,#{reg_id},now(),now(),#{board_img},#{boardthumb_img})
 	</insert>
 
     <update id = "updateBoard" parameterType="com.good.model.BoardVO">
 		update board set
-		cate_cd =#{cate_cd},title=#{title},content=#{content},tag=#{tag},edit_gt = now()
+		cate_cd =#{cate_cd},title=#{title},content=#{content},tag=#{tag},edit_gt = now(),board_img = #{board_img},boardthumb_img = #{boardthumb_img}
 		where bid=#{bid}
 	</update>
 

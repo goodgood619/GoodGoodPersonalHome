@@ -2,17 +2,18 @@ package com.good.controller;
 
 import com.good.model.BoardSearch;
 import com.good.model.BoardVO;
-import com.good.model.Pagination;
 import com.good.model.ReplyVO;
 import com.good.service.BoardService;
+import com.good.utils.UploadFileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.inject.Inject;
-import java.util.List;
+import java.io.File;
 
 @Controller
 @RequestMapping("/board")
@@ -23,6 +24,9 @@ public class BoardController {
     public BoardController(BoardService boardService) {
         this.boardService = boardService;
     }
+
+    @Autowired
+    private String uploadPath;
 
     @GetMapping("/getBoardList")
     public String getBoardList(Model model,@RequestParam(required = false,defaultValue = "1") int page,@RequestParam(required = false,defaultValue = "1") int range,@RequestParam(required = false,defaultValue = "title") String searchType,@RequestParam(required = false) String keyword) throws Exception {
@@ -45,7 +49,20 @@ public class BoardController {
     }
 
     @RequestMapping(value="/saveBoard",method = RequestMethod.POST)
-    public String saveBoard(@ModelAttribute("boardVO") BoardVO boardVO, @RequestParam("mode") String mode, RedirectAttributes redirectAttributes,Model model) throws Exception{
+    public String saveBoard(@ModelAttribute("boardVO") BoardVO boardVO, @RequestParam("mode") String mode, RedirectAttributes redirectAttributes, Model model, @RequestParam("file") MultipartFile multipartFile) throws Exception {
+        String imgUploadPath = uploadPath + File.separator + "imageUpload";
+        String ymdPath = UploadFileUtils.calcPath(imgUploadPath);
+        String fileName = null;
+        if (multipartFile != null) {
+            fileName = UploadFileUtils.fileUpload(imgUploadPath,multipartFile.getOriginalFilename(), multipartFile.getBytes(),ymdPath);
+        }
+        else {
+            fileName = uploadPath + File.separator + "imageUpload" + File.separator + "none.png";
+        }
+
+        boardVO.setBoard_img("imageUpload"+ymdPath+File.separator+ fileName);
+        boardVO.setBoardthumb_img("imageUpload" + ymdPath + File.separator + "s"+File.separator+"s_"+ fileName);
+        boardVO.setContent(boardVO.eraseStringContent(boardVO.getContent()));
         if(mode.equals("edit")){
             int bid = boardVO.getBid();
             BoardVO boardVO1 = boardService.justgetBoardContent(bid);
@@ -72,10 +89,12 @@ public class BoardController {
 
     @RequestMapping(value = "/editForm", method = RequestMethod.GET)
     public String editForm(@RequestParam ("bid") int bid, @RequestParam("mode") String mode, Model model) throws Exception{
-        model.addAttribute("boardContent",boardService.justgetBoardContent(bid));
+        BoardVO boardVO = boardService.justgetBoardContent(bid);
+        boardVO.setContent(boardVO.eraseStringContent(boardVO.getContent()));
+        model.addAttribute("boardContent",boardVO);
         model.addAttribute("mode",mode);
         model.addAttribute("boardVO",new BoardVO());
-        return "board/boardForm";
+        return "board/editboardForm";
     }
 
     @RequestMapping(value = "/deleteBoard", method = RequestMethod.GET)
