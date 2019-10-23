@@ -178,6 +178,7 @@
                 </div>
                 <div class="board_content">${boardContent.content}</div>
                 <div class="board_tag">TAG : <c:out value="${boardContent.tag}"/></div>
+
             </div>
             <div style="margin-top : 20px">
                 <button type="button" class="btn btn-sm btn-primary" id="btnUpdate">수정</button>

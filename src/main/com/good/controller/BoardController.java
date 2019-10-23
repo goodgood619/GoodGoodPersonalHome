@@ -13,7 +13,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/board")
@@ -53,7 +58,7 @@ public class BoardController {
         String imgUploadPath = uploadPath + File.separator + "imageUpload";
         String ymdPath = UploadFileUtils.calcPath(imgUploadPath);
         String fileName = null;
-        if (multipartFile != null) {
+        if (multipartFile.getOriginalFilename()!=null && !multipartFile.getOriginalFilename().equals("")) {
             fileName = UploadFileUtils.fileUpload(imgUploadPath,multipartFile.getOriginalFilename(), multipartFile.getBytes(),ymdPath);
         }
         else {
@@ -63,6 +68,31 @@ public class BoardController {
         boardVO.setBoard_img("imageUpload"+ymdPath+File.separator+ fileName);
         boardVO.setBoardthumb_img("imageUpload" + ymdPath + File.separator + "s"+File.separator+"s_"+ fileName);
         boardVO.setContent(boardVO.eraseStringContent(boardVO.getContent()));
+        boardVO.setCate_cd("1");
+        boardService.insertBoard(boardVO);
+
+        return "redirect:/board/getBoardList";
+    }
+
+
+    @RequestMapping(value = "/modifyBoard",method = RequestMethod.POST)
+    public String modifyBoard(@RequestParam("file") MultipartFile multipartFile, @ModelAttribute("boardVO") BoardVO boardVO, @RequestParam("mode") String mode, HttpServletRequest req) throws Exception {
+        if(multipartFile.getOriginalFilename() != null && !multipartFile.getOriginalFilename().equals("")){
+            new File(uploadPath+req.getParameter("board_img")).delete();
+            new File(uploadPath + req.getParameter("boardthumb_img")).delete();
+
+            String imgUploadPath = uploadPath + File.separator + "imageUpload";
+            String ymdPath = UploadFileUtils.calcPath(imgUploadPath);
+            String fileName = UploadFileUtils.fileUpload(imgUploadPath,multipartFile.getOriginalFilename(), multipartFile.getBytes(),ymdPath);
+
+            boardVO.setBoard_img("imageUpload"+ymdPath+File.separator+ fileName);
+            boardVO.setBoardthumb_img("imageUpload" + ymdPath + File.separator + "s"+File.separator+"s_"+ fileName);
+        }
+        else { //새로운 파일 등록되지 않았음
+            boardVO.setBoard_img(req.getParameter("board_img"));
+            boardVO.setBoardthumb_img(req.getParameter("boardthumb_img"));
+        }
+
         if(mode.equals("edit")){
             int bid = boardVO.getBid();
             BoardVO boardVO1 = boardService.justgetBoardContent(bid);
@@ -73,18 +103,35 @@ public class BoardController {
             // set을 해준이유는 값이 null로 넘어오기때문임, 이해는 잘안감 ㅇㅇ 찾아봐야 할듯
             boardService.updateBoard(boardVO);
         }
-        else {
-            boardVO.setCate_cd("1");
-            boardService.insertBoard(boardVO);
-        }
+
         return "redirect:/board/getBoardList";
     }
-
     @RequestMapping(value = "/getBoardContent",method = RequestMethod.GET)
     public String getBoardContent(Model model,@RequestParam("bid") int bid) throws Exception {
         model.addAttribute("boardContent",boardService.updategetBoardContent(bid));
         model.addAttribute("replyVO",new ReplyVO());
         return "board/boardContent";
+    }
+
+    @RequestMapping(value = "/modifyCKEditor",method = RequestMethod.POST)
+    public void modifyCKEditor(HttpServletRequest req, HttpServletResponse res,@RequestParam MultipartFile multipartFile) throws Exception {
+        UUID uid = UUID.randomUUID();
+
+        OutputStream out = null;
+        PrintWriter printWriter = null;
+
+        // res 인코딩
+        res.setCharacterEncoding("utf-8");
+        res.setContentType("text/html;charset=utf-8");
+
+        // 아직 진행중
+        try {
+
+        }
+        catch (Exception e) {
+
+        }
+        return;
     }
 
     @RequestMapping(value = "/editForm", method = RequestMethod.GET)

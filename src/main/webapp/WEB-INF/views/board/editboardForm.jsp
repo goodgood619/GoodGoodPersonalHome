@@ -60,7 +60,7 @@
 <article>
     <div class="container" role="main">
         <h2>board Form</h2>
-        <form:form name="form2" id="form2" role="form2" modelAttribute="boardVO" method="post" action="${pageContext.request.contextPath}/board/saveBoard" enctype="multipart/form-data">
+        <form:form name="form2" id="form2" role="form2" modelAttribute="boardVO" method="post" action="${pageContext.request.contextPath}/board/modifyBoard" enctype="multipart/form-data">
             <form:hidden path="bid"/>
             <input type="hidden" name = "mode"/>
 
@@ -89,7 +89,8 @@
                 <input type="file" id="board_img" name="file"/>
                 <img src="${pageContext.request.contextPath}/resources/${boardContent.board_img}"/>
                 <img src ="${pageContext.request.contextPath}/resources/${boardContent.boardthumb_img}"/>
-
+                <input type="hidden" name = "board_img" value="${boardContent.board_img}"/>
+                <input type="hidden" name="boardthumb_img" value="${boardContent.boardthumb_img}"/>
 
             </div>
 

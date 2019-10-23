@@ -5,15 +5,15 @@
   Time: 오후 11:21
   To change this template use File | Settings | File Templates.
 --%>
+<!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/WEB-INF/views/layout/header.jsp"%>
 <%@ taglib prefix="form" uri = "http://www.springframework.org/tags/form" %>
-
 <html>
 <head>
     <title>Board</title>
-    <script src="//cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/4.11.4/standard/ckeditor.js"></script>
 
     <script>
         $(document).on('click','#btnSave',function (e) {
@@ -59,7 +59,13 @@
                 <label for="content">내용</label>
                 <form:textarea path="content" rows="4" id="content" placeholder="내용을 입력해 주세요" htmlEscape="true"/>
                 <script>
-                    CKEDITOR.replace('content');
+                    var ckeditor_config = {
+                        resize_enable: false,
+                        enterMode:CKEDITOR.ENTER_BR,
+                        shiftEnterMode: CKEDITOR.ENTER_P,
+                        filebrowserUploadUrl : "${pageContext.request.contextPath}/"
+                    };
+                    CKEDITOR.replace('content',ckeditor_config);
                 </script>
             </div>
 
