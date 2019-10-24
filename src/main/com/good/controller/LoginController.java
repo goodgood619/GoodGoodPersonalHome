@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 
 @Controller
@@ -31,12 +33,14 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/doLogin",method = RequestMethod.POST)
-    public String doLogin(@ModelAttribute("userVO") UserVO userVO,Model model) throws Exception {
+    public String doLogin(@ModelAttribute("userVO") UserVO userVO, Model model, HttpServletRequest req) throws Exception {
+        HttpSession httpSession = req.getSession();
         HashMap<String,Object> hashMap = new HashMap<>();
         hashMap.put("id",userVO.getId());
         hashMap.put("pwd",userVO.getPwd());
         UserVO resultuserVO = userService.getLoginInfo(hashMap);
         if(resultuserVO != null){
+            httpSession.setAttribute("member",resultuserVO);
             return "redirect:/board/getBoardList";
         }
         else {

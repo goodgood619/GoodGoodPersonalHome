@@ -5,9 +5,11 @@ import com.good.model.BoardVO;
 import com.good.model.ReplyVO;
 import com.good.service.BoardService;
 import com.good.utils.UploadFileUtils;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -15,9 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.UUID;
 
 @Controller
@@ -54,55 +54,23 @@ public class BoardController {
     }
 
     @RequestMapping(value="/saveBoard",method = RequestMethod.POST)
-    public String saveBoard(@ModelAttribute("boardVO") BoardVO boardVO, @RequestParam("mode") String mode, RedirectAttributes redirectAttributes, Model model, @RequestParam("file") MultipartFile multipartFile) throws Exception {
-        String imgUploadPath = uploadPath + File.separator + "imageUpload";
-        String ymdPath = UploadFileUtils.calcPath(imgUploadPath);
-        String fileName = null;
-        if (multipartFile.getOriginalFilename()!=null && !multipartFile.getOriginalFilename().equals("")) {
-            fileName = UploadFileUtils.fileUpload(imgUploadPath,multipartFile.getOriginalFilename(), multipartFile.getBytes(),ymdPath);
-        }
-        else {
-            fileName = uploadPath + File.separator + "imageUpload" + File.separator + "none.png";
-        }
-
-        boardVO.setBoard_img("imageUpload"+ymdPath+File.separator+ fileName);
-        boardVO.setBoardthumb_img("imageUpload" + ymdPath + File.separator + "s"+File.separator+"s_"+ fileName);
-        boardVO.setContent(boardVO.eraseStringContent(boardVO.getContent()));
-        boardVO.setCate_cd("1");
-        boardService.insertBoard(boardVO);
-
+    public String saveBoard(@ModelAttribute("boardVO") BoardVO boardVO, RedirectAttributes redirectAttributes, @RequestParam("file") MultipartFile multipartFile) throws Exception {
+        boardService.insertBoard(boardVO,multipartFile);
         return "redirect:/board/getBoardList";
     }
 
 
     @RequestMapping(value = "/modifyBoard",method = RequestMethod.POST)
     public String modifyBoard(@RequestParam("file") MultipartFile multipartFile, @ModelAttribute("boardVO") BoardVO boardVO, @RequestParam("mode") String mode, HttpServletRequest req) throws Exception {
-        if(multipartFile.getOriginalFilename() != null && !multipartFile.getOriginalFilename().equals("")){
-            new File(uploadPath+req.getParameter("board_img")).delete();
-            new File(uploadPath + req.getParameter("boardthumb_img")).delete();
+        int bid = boardVO.getBid();
+        BoardVO boardVO1 = boardService.justgetBoardContent(bid);
+        boardVO.setCate_cd(boardVO1.getCate_cd());
+        boardVO.setView_cnt(boardVO1.getView_cnt());
+        boardVO.setEdit_gt(boardVO1.getEdit_gt());
+        boardVO.setReg_gt(boardVO1.getReg_gt());
+        // set을 해준이유는 값이 null로 넘어오기때문임, 이해는 잘안감 ㅇㅇ 찾아봐야 할듯
 
-            String imgUploadPath = uploadPath + File.separator + "imageUpload";
-            String ymdPath = UploadFileUtils.calcPath(imgUploadPath);
-            String fileName = UploadFileUtils.fileUpload(imgUploadPath,multipartFile.getOriginalFilename(), multipartFile.getBytes(),ymdPath);
-
-            boardVO.setBoard_img("imageUpload"+ymdPath+File.separator+ fileName);
-            boardVO.setBoardthumb_img("imageUpload" + ymdPath + File.separator + "s"+File.separator+"s_"+ fileName);
-        }
-        else { //새로운 파일 등록되지 않았음
-            boardVO.setBoard_img(req.getParameter("board_img"));
-            boardVO.setBoardthumb_img(req.getParameter("boardthumb_img"));
-        }
-
-        if(mode.equals("edit")){
-            int bid = boardVO.getBid();
-            BoardVO boardVO1 = boardService.justgetBoardContent(bid);
-            boardVO.setCate_cd(boardVO1.getCate_cd());
-            boardVO.setView_cnt(boardVO1.getView_cnt());
-            boardVO.setEdit_gt(boardVO1.getEdit_gt());
-            boardVO.setReg_gt(boardVO1.getReg_gt());
-            // set을 해준이유는 값이 null로 넘어오기때문임, 이해는 잘안감 ㅇㅇ 찾아봐야 할듯
-            boardService.updateBoard(boardVO);
-        }
+        boardService.updateBoard(boardVO,multipartFile,req);
 
         return "redirect:/board/getBoardList";
     }
@@ -114,9 +82,19 @@ public class BoardController {
     }
 
     @RequestMapping(value = "/modifyCKEditor",method = RequestMethod.POST)
-    public void modifyCKEditor(HttpServletRequest req, HttpServletResponse res,@RequestParam MultipartFile multipartFile) throws Exception {
+    public void modifyCKEditor(HttpServletRequest req, HttpServletResponse res,@RequestParam MultipartFile upload) throws Exception {
+        String fileUploadpath = uploadPath + File.separator + "ckUpload";
+        File fileUploadDirectory = new File(fileUploadpath);
+        if(!fileUploadDirectory.exists()) fileUploadDirectory.mkdir();
         UUID uid = UUID.randomUUID();
+        String filename = uid + "_" + upload.getOriginalFilename();
+        File target = new File(fileUploadpath,File.separator + filename);
+        FileCopyUtils.copy(upload.getBytes(),target);
 
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.accumulate("uploaded",1);
+        jsonObject.accumulate("filename",filename);
+        jsonObject.accumulate("url","/ckUpload/"+filename);
         OutputStream out = null;
         PrintWriter printWriter = null;
 
@@ -126,12 +104,16 @@ public class BoardController {
 
         // 아직 진행중
         try {
-
+            printWriter = res.getWriter();
+            printWriter.println(jsonObject);
+            printWriter.flush();
         }
-        catch (Exception e) {
-
+        catch (IOException e) {
+            e.printStackTrace();
         }
-        return;
+        finally {
+           if(printWriter != null) printWriter.close();
+        }
     }
 
     @RequestMapping(value = "/editForm", method = RequestMethod.GET)

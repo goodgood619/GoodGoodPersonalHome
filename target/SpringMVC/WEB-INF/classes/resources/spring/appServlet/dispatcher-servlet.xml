@@ -14,6 +14,9 @@
     <mvc:resources mapping="/resources/**" location="resources/"/>
     <!-- 일반 파일 업로드 경로 -->
     <mvc:resources mapping="/imageUpload/**" location="resources/imageUpload/" />
+    <!-- ckEditor 파일 업로드 경로-->
+    <mvc:resources mapping="/ckUpload/**" location="resources/ckUpload/"/>
+<!-- /resources/~~ --> <!--보통 슬래시 쓰고 싲가하는데 상관 없을라낰ㅋㅋㅋㅋ-->
     <context:component-scan base-package="com.good.controller"/>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -25,5 +28,12 @@
         <property name="maxUploadSize" value="10485760"/>
     </bean>
 
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/board/**"/>
+            <bean id="LoginInterceptor" class="com.good.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 </beans>
 

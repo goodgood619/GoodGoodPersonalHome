@@ -13,7 +13,7 @@
 <html>
 <head>
     <title>Board</title>
-    <script src="//cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/4.11.4/standard/ckeditor.js"></script>
     <script>
         $(document).on('click','#btnModify',function (e) {
             e.preventDefault();
@@ -38,7 +38,6 @@
         });
 
         function ConvertSystemSourcetoHtml(str){
-
             str = str.replace(/</g, '&lt;');
             str = str.replace(/>/g,'&gt;');
             var list = $.parseHTML(str);
@@ -86,11 +85,11 @@
             </div>
             <div class = "mb-3">
                 <label for = "board_img">이미지</label>
-                <input type="file" id="board_img" name="file"/>
-                <img src="${pageContext.request.contextPath}/resources/${boardContent.board_img}"/>
-                <img src ="${pageContext.request.contextPath}/resources/${boardContent.boardthumb_img}"/>
-                <input type="hidden" name = "board_img" value="${boardContent.board_img}"/>
-                <input type="hidden" name="boardthumb_img" value="${boardContent.boardthumb_img}"/>
+                <input type = "file" id="board_img" name="file"/>
+                <img src = "<c:url value="/resources/${boardContent.board_img}"/>"/>
+                <img src ="<c:url value="/resources/${boardContent.boardthumb_img}"/>"/>
+                <input type = "hidden" name = "board_img" value="${boardContent.board_img}"/>
+                <input type = "hidden" name="boardthumb_img" value="${boardContent.boardthumb_img}"/>
 
             </div>
 

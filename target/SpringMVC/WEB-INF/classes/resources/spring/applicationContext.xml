@@ -43,7 +43,7 @@
     </bean>
 
     <bean class = "java.lang.String" id="uploadPath" name="uploadPath">
-        <constructor-arg value="C:\Users\USER\IdeaProjects\SpringMVC\src\main\webapp\resources"/>
+        <constructor-arg value="C:\Users\USER\IdeaProjects\SpringMVC\src\main\webapp\resources\"/>
     </bean>
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
