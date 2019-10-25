@@ -40,6 +40,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserVO getIdcheck(String id) throws Exception {
+        return userDAO.getIdcheck(id);
+    }
+
+    @Override
     public UserVO getLoginInfo(HashMap<String, Object> hashMap) throws Exception {
         return userDAO.getLoginInfo(hashMap);
     }

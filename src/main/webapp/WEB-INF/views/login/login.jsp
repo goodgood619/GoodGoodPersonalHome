@@ -16,6 +16,12 @@
         function fn_btnSignupclick() {
             location.href = "${pageContext.request.contextPath}/login/signupForm";
         }
+        function fn_btnFindIdclick(){
+            location.href = "${pageContext.request.contextPath}/login/findIdInfo";
+        }
+        function fn_btnFindPwdclick(){
+            location.href = "${pageContext.request.contextPath}/login/findPwdInfo";
+        }
         $(document).on('click','#doLogin',function (e) {
             $('#form').submit();
         });
@@ -53,6 +59,8 @@
                 </form:form>
                 <button type="button" class="btn btn-sm btn-primary" id="doLogin">로그인</button>
                 <a href = "#" onclick="fn_btnSignupclick()">회원가입</a>
+                <a href = "#" onclick="fn_btnFindIdclick()">아이디 찾기</a>
+                <a href = "#" onclick="fn_btnFindPwdclick()">비밀번호 찾기</a>
             </div>
         </div>
     </div>

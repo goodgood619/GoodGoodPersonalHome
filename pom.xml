@@ -34,6 +34,12 @@
       <artifactId>spring-web</artifactId>
       <version>4.3.18.RELEASE</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context-support</artifactId>
+      <version>4.3.8.RELEASE</version>
+    </dependency>
 
     <!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
     <dependency>
@@ -103,6 +109,12 @@
       <artifactId>jackson-core</artifactId>
       <version>2.9.10</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-mapper-asl -->
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-mapper-asl</artifactId>
+      <version>1.9.13</version>
+    </dependency>
 
     <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
     <dependency>
@@ -134,6 +146,14 @@
       <version>2.4</version>
       <classifier>jdk15</classifier>
     </dependency>
+
+    <!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+    <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>mail</artifactId>
+      <version>1.4.4</version>
+    </dependency>
+
 
     <!-- https://mvnrepository.com/artifact/net.coobird/thumbnailator -->
     <dependency>

@@ -54,7 +54,6 @@
                error:function (error) {
                    console.log("에러: "+ error);
                }
-
            });
 
         });

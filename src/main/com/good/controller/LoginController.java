@@ -27,6 +27,16 @@ public class LoginController {
         return "user/signupForm";
     }
 
+    @RequestMapping(value = "/findIdInfo",method = RequestMethod.GET)
+    public String findIdInfo(Model model) throws Exception {
+        model.addAttribute("userVO",new UserVO());
+        return "user/findIdInfo";
+    }
+    @RequestMapping(value = "/findPwdInfo",method = RequestMethod.GET)
+    public String findPwdInfo(Model model) throws Exception{
+        model.addAttribute("userVO",new UserVO());
+        return "user/findPwdInfo";
+    }
     @RequestMapping(value = "/doinitLogin",method = RequestMethod.GET)
     public String doinitLogin(@ModelAttribute("userVO") UserVO userVO) throws Exception {
         return "login/login";

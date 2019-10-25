@@ -39,6 +39,11 @@ public class UserDAOImpl implements UserDAO{
     }
 
     @Override
+    public UserVO getIdcheck(String id) throws Exception {
+        return sqlSession.selectOne("mapper.boarduserMapper.getIdcheck",id);
+    }
+
+    @Override
     public UserVO getLoginInfo(HashMap<String,Object> map) throws Exception {
         return sqlSession.selectOne("mapper.boarduserMapper.getLoginInfo",map);
     }

@@ -8,7 +8,15 @@ public class UserVO {
     private String email;
     private String grade;
     private String reg_gt;
+    private String cellphone;
 
+    public String getCellphone() {
+        return cellphone;
+    }
+
+    public void setCellphone(String cellphone) {
+        this.cellphone = cellphone;
+    }
 
     public String getReg_gt() {
         return reg_gt;

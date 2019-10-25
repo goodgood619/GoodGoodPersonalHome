@@ -11,5 +11,6 @@ public interface UserService {
     public void insertUser(UserVO userVO) throws Exception;
     public void updateUser(UserVO userVO) throws Exception;
     public void deleteUser(String id) throws Exception;
+    public UserVO getIdcheck(String id) throws Exception;
     public UserVO getLoginInfo(HashMap<String,Object> hashMap) throws Exception;
 }

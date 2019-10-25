@@ -11,5 +11,6 @@ public interface UserDAO {
     public int insertUser(UserVO userVO) throws Exception;
     public int updateUser(UserVO userVO) throws Exception;
     public int deleteUser(String id) throws Exception;
+    public UserVO getIdcheck(String id) throws Exception;
     public UserVO getLoginInfo(HashMap<String,Object> map) throws Exception;
 }
