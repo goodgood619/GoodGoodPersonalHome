@@ -17,7 +17,7 @@
             location.href = "${pageContext.request.contextPath}/login/signupForm";
         }
         function fn_btnFindIdclick(){
-            location.href = "${pageContext.request.contextPath}/login/findIdInfo";
+            location.href = "${pageContext.request.contextPath}/login/choosefindId_Email_Phone";
         }
         function fn_btnFindPwdclick(){
             location.href = "${pageContext.request.contextPath}/login/findPwdInfo";

@@ -17,11 +17,40 @@
         where id = #{id}
     </select>
 
-    <select id = "getIdcheck" resultType="com.good.model.UserVO" parameterType="String">
+    <select id = "sendIdFind" resultType="String" parameterType="hashMap">
+        select id
+        from board_user
+        where email = #{email}
+    </select>
+
+    <select id = "getIdcheck" resultType="String" parameterType="String">
         select id
         from board_user
         where id = #{id}
     </select>
+
+    <select id = "getemailCheck" resultType="String" parameterType="String">
+        select email
+        from board_user
+        where email = #{email}
+    </select>
+
+    <select id = "findPwd" resultType="String" parameterType="hashMap">
+        select pwd
+        from board_user
+        where id = #{id} and email = #{email}
+    </select>
+
+    <select id = "findIdinfo_phone" resultType="String" parameterType="hashMap">
+        select cellphone
+        from board_user
+        where cellphone = #{cellphone}
+    </select>
+
+    <insert id = "Insertcellnum" parameterType="hashMap">
+        insert into board_cellphone(cellphone,senddate,sendnum)
+        values(#{cellphone},now(),#{sendnum})
+    </insert>
 
     <select id = "getLoginInfo" resultType="com.good.model.UserVO" parameterType="hashMap">
         select id,pwd

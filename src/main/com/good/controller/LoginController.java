@@ -27,10 +27,20 @@ public class LoginController {
         return "user/signupForm";
     }
 
+    @RequestMapping(value = "/choosefindId_Email_Phone", method = RequestMethod.GET)
+    public String choosefindId_Email_Phone() throws Exception{
+        return "user/choosefindId_Email_Phone";
+    }
+
     @RequestMapping(value = "/findIdInfo",method = RequestMethod.GET)
     public String findIdInfo(Model model) throws Exception {
         model.addAttribute("userVO",new UserVO());
         return "user/findIdInfo";
+    }
+    @RequestMapping(value= "/findIdInfo_phone",method = RequestMethod.GET)
+    public String findIdInfo_phone(Model model) throws Exception {
+        model.addAttribute("userVO",new UserVO());
+        return "user/findIdInfo_phone";
     }
     @RequestMapping(value = "/findPwdInfo",method = RequestMethod.GET)
     public String findPwdInfo(Model model) throws Exception{

@@ -15,6 +15,7 @@
     <title>findIdinfo</title>
     <script>
         $(document).on('click','#sendEmail',function () {
+
             $('#form').submit();
         })
     </script>
@@ -28,11 +29,19 @@
             <form:form name="form" id="form" class="Loginform" role="form" modelAttribute="userVO" method="post" action="${pageContext.request.contextPath}/user/sendIdcheck">
                 <div class="form-group row"> <label for="email" class="col-md-3 col-form-label text-md-right">Email</label>
                     <div class="col-md-5">
-                        <form:input path="email" id="email" class="form-control" placeholder="Email을 입력해 주세요" />
+                        <form:input path="email" id="email" class="form-control" placeholder="등록하신 Email을 입력해 주세요" />
                     </div>
                 </div>
             </form:form>
             <button type="button" class="btn btn-sm btn-primary" id="sendEmail">전송</button>
+            <script>
+                <c:if test = "${msg == 'false'}">
+                    alert('등록하신 이메일이 존재하지 않습니다.');
+                </c:if>
+                <c:if test="${msg == 'success'}">
+                    alert('해당 이메일로 아이디를 전송하였습니다.');
+                </c:if>
+            </script>
         </div>
     </div>
 </div>

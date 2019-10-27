@@ -40,12 +40,37 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserVO getIdcheck(String id) throws Exception {
+    public String getIdcheck(String id) throws Exception {
         return userDAO.getIdcheck(id);
     }
 
     @Override
     public UserVO getLoginInfo(HashMap<String, Object> hashMap) throws Exception {
         return userDAO.getLoginInfo(hashMap);
+    }
+
+    @Override
+    public String sendIdcheck(HashMap<String, Object> hashMap) throws Exception {
+        return userDAO.sendIdcheck(hashMap);
+    }
+
+    @Override
+    public String getemailCheck(String email) throws Exception {
+        return userDAO.getemailCheck(email);
+    }
+
+    @Override
+    public String findPwd(HashMap<String, Object> hashMap) throws Exception {
+        return userDAO.findPwd(hashMap);
+    }
+
+    @Override
+    public String findIdinfo_phone(HashMap<String, Object> hashMap) throws Exception {
+        return userDAO.findIdinfo_phone(hashMap);
+    }
+
+    @Override
+    public void Insertcellnum(HashMap<String, Object> hashMap) throws Exception {
+        userDAO.Insertcellnum(hashMap);
     }
 }

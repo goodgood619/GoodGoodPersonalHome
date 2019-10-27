@@ -22,7 +22,7 @@
             var cellphone = $('#cellphone').val();
             var email = $('#email').val();
             var paramdata = JSON.stringify({"id":id,"name":name,"pwd":password,"email":email,"cellphone":cellphone});
-            var headers = {"Content-Type":"application/json","X-HTTP-Mehotd-Override":"POST"};
+            var headers = {"Content-Type":"application/json","X-HTTP-Method-Override":"POST"};
             $.ajax({
                 url:url,
                 headers:headers,
@@ -32,27 +32,31 @@
                 success:function (result) {
                     console.log(result);
                         var result2 = JSON.parse(result);
-                        if(result2.good === '아이디중복'){
+                        if(result2.good === '아이디중복') {
                             alert('아이디가 중복됩니다. 다시 입력해주세요');
                             $('#id').val('');
                             $('#id').focus();
                         }
-                        else if(result2.good === '핸드폰문자'){
+                        else if(result2.good === '핸드폰문자') {
                             alert('문자는 입력될수 없습니다. 다시 입력해주세요');
                             $('#cellphone').val('');
                             $('#cellphone').focus();
                         }
-                        else if(result2.good === '핸드폰길이불가'){
+                        else if(result2.good === '핸드폰길이불가') {
                             alert('핸드폰 번호 10자리 혹은 11자리를 입력해주세요, 혹은 -를 추가하여 12자리 혹은 13자리를 입력해주세요');
                         }
-                        else if(result2.good ==='이메일골뱅이'){
+                        else if(result2.good ==='이메일골뱅이') {
                             alert('@를 이용해 이메일을 입력해주세요');
+                        }
+                        else if(result2.good === '이메일중복'){
+                            alert('이메일이 중복됩니다. 다시 입력해주세요');
+                            $('#email').val('');
+                            $('#email').focus();
                         }
                         else {
                             alert('회원가입이 완료되었습니다.');
                             $('#btnCancel').trigger("click");
                         }
-
                     }
              })
         });
@@ -79,15 +83,40 @@
                 type:'POST',
                 dataType:'text',
                 success:function (data) {
-                    var map = JSON.parse(data);
-                    $.each(map,function (key,value) {
-                        if(value === "성공"){
-                            alert('중복된 아이디입니다');
-                        }
-                        else{
-                            alert('사용할수 있는 아이디입니다.');
-                        }
-                    })
+                    var result = JSON.parse(data);
+                    if(result.ret === '실패'){
+                        alert('사용할수 있는 아이디입니다.');
+                    }
+                    else {
+                        alert('중복된 아이디입니다. 다시 입력해주세요');
+                        $('#id').val('');
+                        $('#id').focus();
+                    }
+                }
+            })
+        })
+        $(document).on('click','#btnEmailcheck',function (e) {
+            e.preventDefault();
+            var url = "${pageContext.request.contextPath}/user/emailCheck";
+            var email = $('#email').val();
+            var paramdata = JSON.stringify({"email":email});
+            var headers = {"Content-Type":"application/json","X-HTTP-Method-Override":"POST"};
+            $.ajax({
+                url:url,
+                headers:headers,
+                data:paramdata,
+                type:'POST',
+                dataType:'text',
+                success:function (data) {
+                    var result = JSON.parse(data);
+                    if(result.ret === '실패') {
+                        alert('사용할 수 있는 이메일입니다. ');
+                    }
+                    else {
+                        alert('중복된 이메일입니다. 다시 입력해주세요');
+                        $('#email').val('');
+                        $('#email').focus();
+                    }
                 }
             })
         })
@@ -127,10 +156,8 @@
                     <div class="form-group row">
                         <label for="email" class="col-md-3 col-form-label text-md-right">이메일</label>
                         <div class="input-group col-md-7">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">@</span>
-                            </div>
-                            <form:input path="email" id="email" class="form-control" placeholder="이메일을 입력해 주세요" />
+                            <form:input path="email" id="email" class="form-control" placeholder="@를 포함해 이메일을 입력해 주세요" />
+                            <button type = "button" class="btn btn-sm btn-primary" id="btnEmailcheck">이메일 중복확인</button>
                         </div>
                     </div>
                 </form:form>

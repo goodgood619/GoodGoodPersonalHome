@@ -39,12 +39,37 @@ public class UserDAOImpl implements UserDAO{
     }
 
     @Override
-    public UserVO getIdcheck(String id) throws Exception {
+    public String getIdcheck(String id) throws Exception {
         return sqlSession.selectOne("mapper.boarduserMapper.getIdcheck",id);
     }
 
     @Override
     public UserVO getLoginInfo(HashMap<String,Object> map) throws Exception {
         return sqlSession.selectOne("mapper.boarduserMapper.getLoginInfo",map);
+    }
+
+    @Override
+    public String sendIdcheck(HashMap<String, Object> hashMap) throws Exception {
+        return sqlSession.selectOne("mapper.boarduserMapper.sendIdFind",hashMap);
+    }
+
+    @Override
+    public String getemailCheck(String email) throws Exception {
+        return sqlSession.selectOne("mapper.boarduserMapper.getemailCheck",email);
+    }
+
+    @Override
+    public String findIdinfo_phone(HashMap<String, Object> hashMap) throws Exception {
+        return sqlSession.selectOne("mapper.boarduserMapper.findIdinfo_phone",hashMap);
+    }
+
+    @Override
+    public void Insertcellnum(HashMap<String, Object> hashMap) throws Exception {
+        sqlSession.insert("mapper.boarduserMapper.Insertcellnum",hashMap);
+    }
+
+    @Override
+    public String findPwd(HashMap<String, Object> hashMap) throws Exception {
+        return sqlSession.selectOne("mapper.boarduserMapper.findPwd",hashMap);
     }
 }
