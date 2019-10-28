@@ -14,7 +14,6 @@
     <title>findIdInfo_phone</title>
     <script>
         $(document).on('click','#sendPhone',function () {
-
             $('#form').submit();
         })
     </script>
@@ -41,6 +40,9 @@
                 </c:if>
                 <c:if test = "${msg == 'noelement'}">
                     alert('등록하신 휴대폰 번호는 존재하지 않습니다.');
+                </c:if>
+                <c:if test = "${msg == 'sendmessageok'}">
+                    alert('등록하신 휴대폰 번호로 인증번호를 전송했습니다. 인증번호를 입력해주세요');
                 </c:if>
             </script>
         </div>

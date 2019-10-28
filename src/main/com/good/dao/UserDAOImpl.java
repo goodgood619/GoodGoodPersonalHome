@@ -13,6 +13,7 @@ public class UserDAOImpl implements UserDAO{
 
     @Inject
     private SqlSession sqlSession;
+
     @Override
     public List<UserVO> getUserList() throws Exception {
         return sqlSession.selectList("mapper.boarduserMapper.getUserList");
@@ -59,8 +60,8 @@ public class UserDAOImpl implements UserDAO{
     }
 
     @Override
-    public String findIdinfo_phone(HashMap<String, Object> hashMap) throws Exception {
-        return sqlSession.selectOne("mapper.boarduserMapper.findIdinfo_phone",hashMap);
+    public String findIdinfo_phone(HashMap<String,Object> hashMap) throws Exception {
+        return sqlSession.selectOne("mapper.boarduserMapper.findIdinfophone",hashMap);
     }
 
     @Override

@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String findIdinfo_phone(HashMap<String, Object> hashMap) throws Exception {
+    public String findIdinfo_phone(HashMap<String,Object> hashMap) throws Exception {
         return userDAO.findIdinfo_phone(hashMap);
     }
 

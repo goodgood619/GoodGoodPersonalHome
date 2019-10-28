@@ -41,11 +41,12 @@
         where id = #{id} and email = #{email}
     </select>
 
-    <select id = "findIdinfo_phone" resultType="String" parameterType="hashMap">
+    <select id = "findIdinfophone" resultType="String" parameterType="hashMap">
         select cellphone
         from board_user
         where cellphone = #{cellphone}
     </select>
+
 
     <insert id = "Insertcellnum" parameterType="hashMap">
         insert into board_cellphone(cellphone,senddate,sendnum)
@@ -59,8 +60,8 @@
     </select>
 
     <insert id = "insertUser" parameterType="com.good.model.UserVO">
-        insert into board_user(id,name,pwd,email,reg_gt)
-        values(#{id},#{name},#{pwd},#{email},now())
+        insert into board_user(id,name,pwd,email,grade,reg_gt,cellphone)
+        values(#{id},#{name},#{pwd},#{email},null,now(),#{cellphone})
     </insert>
     
     <update id="updateUser" parameterType="com.good.model.UserVO">

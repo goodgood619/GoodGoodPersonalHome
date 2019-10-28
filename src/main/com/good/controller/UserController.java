@@ -2,8 +2,7 @@ package com.good.controller;
 
 import com.good.model.UserVO;
 import com.good.service.UserService;
-import net.nurigo.java_sdk.Coolsms;
-import net.sf.json.JSON;
+import com.good.utils.Coolsms;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -14,13 +13,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.inject.Inject;
-import javax.mail.Message;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -35,6 +34,11 @@ public class UserController {
     public String getUserList(Model model) throws Exception {
         model.addAttribute("userList",userService.getUserList());
         return "user/userList";
+    }
+
+    @RequestMapping(value = "/verifyPhoneNumber",method = RequestMethod.GET)
+    public String verifyPhoneNumber() throws Exception {
+        return "login/verifyPhoneNumber";
     }
 
     @ResponseBody
@@ -56,13 +60,14 @@ public class UserController {
                     result.put("good", "핸드폰문자");
                 } else {
                     String s2 = cellPhonelengthCheck(userVO.getCellphone());
-                    if ( s2.equals("no") ) {
+                    if ( s2.equals("no")) {
                         result.put("good", "핸드폰길이불가");
                     } else {
                         if ( emailCheck(userVO.getEmail()).equals("no") ) {
                             result.put("good", "이메일골뱅이");
                         } else {
                             try {
+                                userVO.setCellphone(s2);
                                 userService.insertUser(userVO);
                                 result.put("good", "회원가입성공");
                             } catch (Exception e) {
@@ -155,7 +160,6 @@ public class UserController {
                 String api_secret = "EVKG8U0M8ULFD7H1C7DJ3EJUOOUSU8BK";
                 int rand = (int) (Math.random() * 899999) + 100000;
                 Coolsms coolsms = new Coolsms(api_key,api_secret);
-
                 HashMap<String,Object> inserthashmap = new HashMap<>();
                 inserthashmap.put("cellphone",cellphone);
                 inserthashmap.put("sendnum",rand);
@@ -166,24 +170,29 @@ public class UserController {
                 set.put("from","028983724");
                 set.put("text","뚱톡입니다. 인증번호는 ["+rand+"] 입니다.");
                 set.put("type","sms");
-                JSONObject jsonObject = coolsms.sendPostRequest("status",set);
+                JSONObject jsonObject = coolsms.send(set);
                 if( (boolean) jsonObject.get("status") ) {
+                    redirectAttributes.addFlashAttribute("msg","sendmessageok");
                     System.out.println("성공");
-
+                    System.out.println(jsonObject.get("group_id")); // 그룹아이디
+                    System.out.println(jsonObject.get("result_code")); // 결과코드
+                    System.out.println(jsonObject.get("result_message")); // 결과 메시지
+                    System.out.println(jsonObject.get("success_count")); // 메시지아이디
+                    System.out.println(jsonObject.get("error_count")); // 여러개 보낼시 오류난 메시지 수
                 }
                 else {
                     System.out.println("실패");
+                    System.out.println(jsonObject.get("code"));
+                    System.out.println(jsonObject.get("message"));
                 }
             }
         }
-        return "redirect:/user/findIdInfo_phone";
+        return "redirect:/login/findIdInfo_phone";
     }
     private String cellPhonenumCheck(String cellphone) throws Exception {
         for(int i = 0 ; i < cellphone.length() ; i++) {
             if(cellphone.charAt(i)=='-' || cellphone.charAt(i)>='0' && cellphone.charAt(i)<='9') continue;
-            else {
-                return "no";
-            }
+            return "no";
         }
         return "yes";
     }
@@ -194,8 +203,15 @@ public class UserController {
             if(cellphone.charAt(i)=='-') continue;
             list.add(cellphone.charAt(i));
         }
-        if(list.size()<10 || list.size()>11) return "no";
-        else return list.toString();
+
+        if(list.size()<10 || list.size()>11){
+            return "no";
+        }
+        else {
+            return list.toString()
+                    .substring(1, 3 * list.size() - 1)
+                    .replaceAll(", ", "");
+        }
     }
 
     private String emailCheck(String email) throws Exception{
