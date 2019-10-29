@@ -7,6 +7,23 @@ public class ReplyVO {
     private String reg_id;
     private String reg_gt;
     private String edit_gt;
+    private String id;
+    private int readonlyorwrite; // 1이면 해당 아이디인 사람이 쓴것, 0이면 해당 아이디인 사람이 쓴것이 아님
+    public int getReadonlyorwrite() {
+        return readonlyorwrite;
+    }
+
+    public void setReadonlyorwrite(int readonlyorwrite) {
+        this.readonlyorwrite = readonlyorwrite;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public int getRid() {
         return rid;
