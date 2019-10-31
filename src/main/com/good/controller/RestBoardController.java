@@ -28,7 +28,7 @@ public class RestBoardController {
         List<ReplyVO> replyVOList = boardService.getReplyList(bid);
         HttpSession httpSession = request.getSession();
         UserVO userVO = (UserVO) httpSession.getAttribute("member");
-        for(int i=0 ; i<replyVOList.size(); i++) {
+        for (int i = 0 ; i < replyVOList.size(); i++) {
             if(replyVOList.get(i).getId() == null) continue;
             if (replyVOList.get(i).getId().equals(userVO.getId())) continue;
             else {

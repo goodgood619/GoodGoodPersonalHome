@@ -18,10 +18,15 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <!-- common CSS -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/common/css/common.css">
-
     <script>
         function fn_boardgetBoardList() {
             location.href = "${pageContext.request.contextPath}/board/getBoardList";
+        }
+        function fn_logout() {
+            location.href = "${pageContext.request.contextPath}/login/doLogout";
+        }
+        function fn_showMemberStatus() {
+            location.href = "${pageContext.request.contextPath}/member/showMemberuser";
         }
     </script>
 
@@ -41,7 +46,10 @@
     <a class="nav-link" href="#">Q&A</a>
     </li>
     <li class="nav-item">
-    <a class="nav-link" href="#">회원정보</a>
+    <a class="nav-link" href="#" onclick="fn_showMemberStatus()">회원정보</a>
+    </li>
+    <li class="nav-item">
+    <a class = "nav-link" href="#" onclick="fn_logout()">로그아웃</a>
     </li>
     <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>

@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -57,7 +58,7 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/doLogin",method = RequestMethod.POST)
-    public String doLogin(@ModelAttribute("userVO") UserVO userVO, Model model, HttpServletRequest req) throws Exception {
+    public String doLogin(@ModelAttribute("userVO") UserVO userVO, Model model, HttpServletRequest req, RedirectAttributes redirectAttributes) throws Exception {
         HttpSession httpSession = req.getSession();
         HashMap<String,Object> hashMap = new HashMap<>();
         hashMap.put("id",userVO.getId());
@@ -68,8 +69,14 @@ public class LoginController {
             return "redirect:/board/getBoardList";
         }
         else {
-            model.addAttribute("status","false");
-            return "login/login";
+            redirectAttributes.addFlashAttribute("msg","false");
+            return "redirect:/login/doinitLogin";
         }
+    }
+
+    @RequestMapping(value = "/doLogout",method = RequestMethod.GET)
+    public String doLogout(HttpSession httpSession){
+        httpSession.invalidate();
+        return "redirect:/login/doinitLogin";
     }
 }

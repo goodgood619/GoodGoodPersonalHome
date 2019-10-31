@@ -189,7 +189,7 @@ public class UserController {
         }
         return "redirect:/login/findIdInfo_phone";
     }
-    private String cellPhonenumCheck(String cellphone) throws Exception {
+    public String cellPhonenumCheck(String cellphone) throws Exception {
         for(int i = 0 ; i < cellphone.length() ; i++) {
             if(cellphone.charAt(i)=='-' || cellphone.charAt(i)>='0' && cellphone.charAt(i)<='9') continue;
             return "no";
@@ -197,7 +197,7 @@ public class UserController {
         return "yes";
     }
 
-    private String cellPhonelengthCheck(String cellphone) throws Exception {
+    public String cellPhonelengthCheck(String cellphone) throws Exception {
         List<Character> list = new ArrayList<>();
         for(int i=0; i< cellphone.length();i++) {
             if(cellphone.charAt(i)=='-') continue;
@@ -214,7 +214,7 @@ public class UserController {
         }
     }
 
-    private String emailCheck(String email) throws Exception{
+    public String emailCheck(String email) throws Exception{
         for(int i=0 ; i<email.length(); i++) {
             if(email.charAt(i)=='@') return "yes";
         }

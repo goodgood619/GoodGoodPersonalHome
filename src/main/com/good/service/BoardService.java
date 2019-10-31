@@ -13,16 +13,16 @@ import java.util.Map;
 
 @Transactional
 public interface BoardService {
-    public List<BoardVO> getBoardList(BoardSearch boardSearch) throws Exception;
-    public void insertBoard(BoardVO boardVO, MultipartFile multipartFile) throws Exception;
+    List<BoardVO> getBoardList(BoardSearch boardSearch) throws Exception;
+    void insertBoard(BoardVO boardVO, MultipartFile multipartFile) throws Exception;
     @Transactional
-    public BoardVO updategetBoardContent(int bid) throws Exception;
-    public void updateBoard(BoardVO boardVO, MultipartFile multipartFile, HttpServletRequest httpServletRequest) throws Exception;
-    public BoardVO justgetBoardContent(int bid) throws Exception;
-    public void deleteBoard(int bid) throws Exception;
-    public int getBoardListCnt(BoardSearch boardSearch) throws Exception;
-    public List<ReplyVO> getReplyList(int bid) throws Exception;
-    public int saveReply(ReplyVO replyVO) throws Exception;
-    public int updateReply(ReplyVO replyVO) throws Exception;
-    public int deleteReply(int rid) throws Exception;
+    BoardVO updategetBoardContent(int bid) throws Exception;
+    void updateBoard(BoardVO boardVO, MultipartFile multipartFile, HttpServletRequest httpServletRequest) throws Exception;
+    BoardVO justgetBoardContent(int bid) throws Exception;
+    void deleteBoard(int bid) throws Exception;
+    int getBoardListCnt(BoardSearch boardSearch) throws Exception;
+    List<ReplyVO> getReplyList(int bid) throws Exception;
+    int saveReply(ReplyVO replyVO) throws Exception;
+    int updateReply(ReplyVO replyVO) throws Exception;
+    int deleteReply(int rid) throws Exception;
 }

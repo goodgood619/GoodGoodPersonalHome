@@ -5,10 +5,10 @@
   Time: 오후 3:42
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ include file="/WEB-INF/views/layout/header.jsp"%>
+<%@ include file="/WEB-INF/views/layout/AfterLoginheader.jsp"%>
 <html>
 <head>
     <title>board</title>
@@ -46,7 +46,7 @@
                data: paramData,
                type: 'POST',
                dataType : 'text',
-               success:function (result) {
+               success:function () {
                    showReplyList();
                    $("#content").val('');
                    $("#reg_id").val('');
@@ -96,7 +96,7 @@
                 data: paramdata,
                 type: 'POST',
                 dataType : 'text',
-                success : function (result) {
+                success : function () {
                     showReplyList();
                 },
                 error : function (error) {
@@ -104,7 +104,7 @@
                 }
             });
         }
-        function fn_updateReply(rid,reg_id) {
+        function fn_updateReply(rid) {
             var url = "${pageContext.request.contextPath}/restBoard/updateReply";
             var replyEditContent = $('#editContent').val();
             var paramdata = JSON.stringify({"content":replyEditContent,"rid":rid});

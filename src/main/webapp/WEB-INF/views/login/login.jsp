@@ -5,13 +5,13 @@
   Time: 오후 5:35
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri ="http://www.springframework.org/tags/form"%>
-<%@ include file="/WEB-INF/views/layout/header.jsp"%>
+<%@ include file="/WEB-INF/views/layout/BeforeLoginheader.jsp"%>
 <html>
 <head>
-    <title>Title</title>
+    <title>Login</title>
     <script>
         function fn_btnSignupclick() {
             location.href = "${pageContext.request.contextPath}/login/signupForm";
@@ -22,7 +22,7 @@
         function fn_btnFindPwdclick(){
             location.href = "${pageContext.request.contextPath}/login/findPwdInfo";
         }
-        $(document).on('click','#doLogin',function (e) {
+        $(document).on('click','#doLogin',function () {
             $('#form').submit();
         });
         $(document).ready(function () {
@@ -39,6 +39,9 @@
     </script>
 </head>
 <body>
+<%
+    response.setHeader("Cache-Control","no-cache, no-store, must-revalidate");
+%>
 <article>
     <div class="container col-md-6" role="main">
         <div class="card">
@@ -64,10 +67,11 @@
             </div>
         </div>
     </div>
-    <c:if test="${status}==false">
-        <p style="color: #ff000000;">Login Failed</p>
-
-    </c:if>
+    <script>
+        <c:if test="${msg == 'false'}">
+            alert('아이디 혹은 패스워드가 틀렸습니다. 다시 입력해주세요');
+        </c:if>
+    </script>
 </article>
 
 </body>

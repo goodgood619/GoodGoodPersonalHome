@@ -59,6 +59,12 @@
         where id = #{id} and pwd = #{pwd}
     </select>
 
+    <select id = "getMemberInfo" resultType="com.good.model.UserVO" parameterType="hashMap">
+        select id,name,pwd,cellphone,email
+        from board_user
+        where id= #{id} and pwd = #{pwd}
+    </select>
+
     <insert id = "insertUser" parameterType="com.good.model.UserVO">
         insert into board_user(id,name,pwd,email,grade,reg_gt,cellphone)
         values(#{id},#{name},#{pwd},#{email},null,now(),#{cellphone})
@@ -68,6 +74,13 @@
         update board_user
         set name = #{name}, pwd = #{pwd}, email = #{email}, grade = #{grade}
         where id = #{id}
+    </update>
+
+
+    <update id="updateMember" parameterType="hashMap">
+        update board_user
+        set id = #{id}, name =#{name},pwd= #{pwd}, email =#{email}, cellphone = #{cellphone}
+        where id = #{oid}
     </update>
 
     <delete id = "deleteUser" parameterType="int">

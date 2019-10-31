@@ -70,6 +70,16 @@ public class UserDAOImpl implements UserDAO{
     }
 
     @Override
+    public UserVO getMemberInfo(HashMap<String, Object> hashMap) throws Exception {
+        return sqlSession.selectOne("mapper.boarduserMapper.getMemberInfo",hashMap);
+    }
+
+    @Override
+    public void updateMember(HashMap<String,Object> hashMap) {
+        sqlSession.update("mapper.boarduserMapper.updateMember",hashMap);
+    }
+
+    @Override
     public String findPwd(HashMap<String, Object> hashMap) throws Exception {
         return sqlSession.selectOne("mapper.boarduserMapper.findPwd",hashMap);
     }

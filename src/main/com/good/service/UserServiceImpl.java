@@ -73,4 +73,14 @@ public class UserServiceImpl implements UserService {
     public void Insertcellnum(HashMap<String, Object> hashMap) throws Exception {
         userDAO.Insertcellnum(hashMap);
     }
+
+    @Override
+    public UserVO getMemberInfo(HashMap<String, Object> hashMap) throws Exception {
+        return userDAO.getMemberInfo(hashMap);
+    }
+
+    @Override
+    public void updateMember(HashMap<String,Object> hashMap) throws Exception {
+        userDAO.updateMember(hashMap);
+    }
 }
