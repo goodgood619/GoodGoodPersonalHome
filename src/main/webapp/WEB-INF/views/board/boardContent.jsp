@@ -199,9 +199,14 @@
 
             </div>
             <div style="margin-top : 20px">
-                <button type="button" class="btn btn-sm btn-primary" id="btnUpdate">수정</button>
-                <button type="button" class="btn btn-sm btn-primary" id="btnDelete">삭제</button>
-                <button type="button" class="btn btn-sm btn-primary" id="btnList">목록</button>
+                <c:if test="${msg == 'false'}">
+                    <button type="button" class="btn btn-sm btn-primary" id="btnList">목록</button>
+                </c:if>
+                <c:if test ="${msg == 'true'}">
+                    <button type="button" class="btn btn-sm btn-primary" id="btnUpdate">수정</button>
+                    <button type="button" class="btn btn-sm btn-primary" id="btnDelete">삭제</button>
+                    <button type="button" class="btn btn-sm btn-primary" id="btnList">목록</button>
+                </c:if>
             </div>
             <!-- Reply Form {s} -->
 

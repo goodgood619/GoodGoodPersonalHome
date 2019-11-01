@@ -3,10 +3,12 @@ package com.good.controller;
 import com.good.model.BoardSearch;
 import com.good.model.BoardVO;
 import com.good.model.ReplyVO;
+import com.good.model.UserVO;
 import com.good.service.BoardService;
 import com.good.utils.UploadFileUtils;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -17,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.util.UUID;
 
@@ -54,14 +57,16 @@ public class BoardController {
     }
 
     @RequestMapping(value="/saveBoard",method = RequestMethod.POST)
-    public String saveBoard(@ModelAttribute("boardVO") BoardVO boardVO, RedirectAttributes redirectAttributes, @RequestParam("file") MultipartFile multipartFile) throws Exception {
+    public String saveBoard(@ModelAttribute("boardVO") BoardVO boardVO, @RequestParam("file") MultipartFile multipartFile, HttpSession httpSession) throws Exception {
+        UserVO userVO = (UserVO) httpSession.getAttribute("member");
+        boardVO.setId(userVO.getId());
         boardService.insertBoard(boardVO,multipartFile);
         return "redirect:/board/getBoardList";
     }
 
 
     @RequestMapping(value = "/modifyBoard",method = RequestMethod.POST)
-    public String modifyBoard(@RequestParam("file") MultipartFile multipartFile, @ModelAttribute("boardVO") BoardVO boardVO, @RequestParam("mode") String mode, HttpServletRequest req) throws Exception {
+    public String modifyBoard(@RequestParam("file") MultipartFile multipartFile, @ModelAttribute("boardVO") BoardVO boardVO,  HttpServletRequest req) throws Exception {
         int bid = boardVO.getBid();
         BoardVO boardVO1 = boardService.justgetBoardContent(bid);
         boardVO.setCate_cd(boardVO1.getCate_cd());
@@ -75,8 +80,17 @@ public class BoardController {
         return "redirect:/board/getBoardList";
     }
     @RequestMapping(value = "/getBoardContent",method = RequestMethod.GET)
-    public String getBoardContent(Model model,@RequestParam("bid") int bid) throws Exception {
-        model.addAttribute("boardContent",boardService.updategetBoardContent(bid));
+    public String getBoardContent(Model model,@RequestParam("bid") int bid,HttpSession httpSession) throws Exception {
+        BoardVO boardVO = boardService.updategetBoardContent(bid);
+        UserVO uservo = (UserVO) httpSession.getAttribute("member");
+
+        if( boardVO.getId() == null || boardVO.getId().equals("") || !boardVO.getId().equals(uservo.getId())) {
+            model.addAttribute("msg","false");
+        }
+        else {
+            model.addAttribute("msg","true");
+        }
+        model.addAttribute("boardContent",boardVO);
         model.addAttribute("replyVO",new ReplyVO());
         return "board/boardContent";
     }

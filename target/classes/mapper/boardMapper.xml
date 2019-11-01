@@ -43,7 +43,7 @@
 
     <select id = "getBoardContent" resultType="com.good.model.BoardVO" parameterType = "com.good.model.BoardVO">
 	  SELECT
-			BID, CATE_CD, TITLE, CONTENT, TAG, VIEW_CNT, REG_ID, REG_gt, EDIT_gt,board_img,boardthumb_img
+			BID, CATE_CD, TITLE, CONTENT, TAG, VIEW_CNT, REG_ID, REG_gt, EDIT_gt,board_img,boardthumb_img,id
 		FROM
 			board
 		WHERE
@@ -51,8 +51,8 @@
 	</select>
 
     <insert id = "insertBoard" parameterType="com.good.model.BoardVO">
-		insert into board(bid,cate_cd,title,content,tag,view_cnt,reg_id,reg_gt,edit_gt,board_img,boardthumb_img)
-		values(#{bid},#{cate_cd},#{title},#{content},#{tag},0,#{reg_id},now(),now(),#{board_img},#{boardthumb_img})
+		insert into board(bid,cate_cd,title,content,tag,view_cnt,reg_id,reg_gt,edit_gt,board_img,boardthumb_img,id)
+		values(#{bid},#{cate_cd},#{title},#{content},#{tag},0,#{reg_id},now(),now(),#{board_img},#{boardthumb_img},#{id})
 	</insert>
 
     <update id = "updateBoard" parameterType="com.good.model.BoardVO">

@@ -6,7 +6,7 @@
   Time: 오후 10:27
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ include file="/WEB-INF/views/layout/AfterLoginheader.jsp"%>
@@ -58,8 +58,10 @@
             $('#pwd').val('');
             $('#cellphone').val('');
             $('#email').val('');
-        })
+        });
+
         $(document).ready(function () {
+            $('#id').prop('readonly',true);
             $('#id').val('<c:out value="${UserVO.id}"/>');
             $('#name').prop('readonly', true);
             $('#name').val('<c:out value="${UserVO.name}"/>');
@@ -93,7 +95,8 @@
                     }
                 }
             })
-        })
+        });
+
         $(document).on('click','#btnEmailcheck',function (e) {
             e.preventDefault();
             var url = "${pageContext.request.contextPath}/user/emailCheck";

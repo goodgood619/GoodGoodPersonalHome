@@ -68,6 +68,8 @@ public class MemberController {
                         send.put("oid",origin.getId());
                         userService.updateMember(send);
                         result.put("good", "회원정보수정");
+                        httpSession.removeAttribute("member");
+                        httpSession.setAttribute("member",userVO);
                     }
                     catch (Exception e) {
                         e.printStackTrace();
