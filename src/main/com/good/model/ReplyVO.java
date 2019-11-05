@@ -1,5 +1,7 @@
 package com.good.model;
 
+import java.util.List;
+
 public class ReplyVO {
     private int rid;
     private int bid;
@@ -9,6 +11,16 @@ public class ReplyVO {
     private String edit_gt;
     private String id;
     private int readonlyorwrite; // 1이면 해당 아이디인 사람이 쓴것, 0이면 해당 아이디인 사람이 쓴것이 아님
+    private List<ReReplyVO> reReplyVOList;
+
+    public List<ReReplyVO> getReReplyVOList() {
+        return reReplyVOList;
+    }
+
+    public void setReReplyVOList(List<ReReplyVO> reReplyVOList) {
+        this.reReplyVOList = reReplyVOList;
+    }
+
     public int getReadonlyorwrite() {
         return readonlyorwrite;
     }

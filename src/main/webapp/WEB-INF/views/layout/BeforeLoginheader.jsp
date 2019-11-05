@@ -6,7 +6,7 @@
       To change this template use File | Settings | File Templates.
     --%>
 
-        <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+        <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
         <!-- jquery -->
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" type="text/javascript"></script>
 
@@ -35,9 +35,6 @@
         <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
         <a class="nav-link" href="#" onclick="fn_boardgetBoardList()">Board<span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link" href="#">Q&A</a>
         </li>
         <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>

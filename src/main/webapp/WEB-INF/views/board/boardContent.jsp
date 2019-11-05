@@ -125,6 +125,27 @@
 
             });
         }
+        function showReplyReplyList(rid) {
+            var url = "${pageContext.request.contextPath}/restBoard/getReplyReplyList";
+            var paramdata = {"rid":rid};
+            $.ajax({
+                url:url,
+                type:'post',
+                data:paramdata,
+                dataType:'text',
+                success:function (result) {
+                    var htmls =[];
+                    if(result.length<1) {
+                        htmls.push("등록된 댓글이 없습니다.");
+                    }
+                    else {
+
+                    }
+                    $("#replyList").append(htmls);
+                }
+
+            });
+        }
         function showReplyList() {
             var url = "${pageContext.request.contextPath}/restBoard/getReplyList";
             var paramdata = {"bid":"${boardContent.bid}"};
@@ -173,6 +194,19 @@
                                 htmls += '</span>';
                                 htmls += '</span>';
                                 htmls += this.content;
+                                htmls += '<p style="padding-left: 7px; font-size:9pt">';
+                                htmls += '<button type = "button" class="btn btn-sm btn-primary" id=btnReplyReply onclick="showReplyReplyList('+this.rid+')">답글</button>';
+                                htmls += '</p>';
+                                if(this.reReplyVOList.length === 0) {
+                                     htmls += '<p>등록된 댓글이 없습니다</p>';
+                                }
+                                else {
+                                    if (this.reReplyVOList.r_readonlyorwrite === 0) {
+
+                                    } else {
+
+                                    }
+                                }
                                 htmls += '</p>';
                                 htmls += '</div>';
                             }
@@ -229,7 +263,8 @@
             <!-- Reply List {s}-->
             <div class="my-3 p-3 bg-white rounded shadow-sm" style="padding-top: 10px">
                 <h6 class="border-bottom pb-2 mb-0">Reply list</h6>
-                <div id="replyList"></div>
+                <div id="replyList">
+                </div>
             </div>
             <!-- Reply List {e}-->
         </div>

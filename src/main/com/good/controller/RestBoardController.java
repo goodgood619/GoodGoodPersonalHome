@@ -1,8 +1,10 @@
 package com.good.controller;
 
+import com.good.model.ReReplyVO;
 import com.good.model.ReplyVO;
 import com.good.model.UserVO;
 import com.good.service.BoardService;
+import org.apache.maven.model.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
@@ -23,13 +25,15 @@ public class RestBoardController {
     }
 
     @RequestMapping(value="/getReplyList",method = RequestMethod.POST)
-    public List<ReplyVO> getReplyList(HttpServletRequest request,@RequestParam("bid") int bid) throws Exception {
+    public List<ReplyVO> getReplyList(HttpServletRequest request, @RequestParam("bid") int bid) throws Exception {
         // 1이면 해당 아이디인 사람이 쓴것, 0이면 해당 아이디인 사람이 쓴것이 아님
         List<ReplyVO> replyVOList = boardService.getReplyList(bid);
         HttpSession httpSession = request.getSession();
         UserVO userVO = (UserVO) httpSession.getAttribute("member");
         for (int i = 0 ; i < replyVOList.size(); i++) {
             if(replyVOList.get(i).getId() == null) continue;
+            List<ReReplyVO> reReplyVOList = boardService.getReplyReplyList(replyVOList.get(i).getRid());
+            replyVOList.get(i).setReReplyVOList(reReplyVOList);
             if (replyVOList.get(i).getId().equals(userVO.getId())) continue;
             else {
                 replyVOList.get(i).setReadonlyorwrite(0);
@@ -37,6 +41,21 @@ public class RestBoardController {
         }
 
         return replyVOList;
+    }
+
+    @RequestMapping(value = "/getReplyReplyList",method = RequestMethod.POST)
+    public List<ReReplyVO> getReplyReplyList(HttpSession httpSession,@RequestParam("rid") int rid) throws Exception {
+        List<ReReplyVO> reReplyVOList = boardService.getReplyReplyList(rid);
+        UserVO userVO = (UserVO) httpSession.getAttribute("member");
+        for(int i = 0 ;i<reReplyVOList.size(); i++) {
+            if(reReplyVOList.get(i).getId()== null) continue;
+            if(reReplyVOList.get(i).getId().equals(userVO.getId())) continue;
+            else {
+                reReplyVOList.get(i).setReadonlyorwrite(0);
+            }
+        }
+
+        return reReplyVOList;
     }
 
     @RequestMapping(value="/saveReply",method = RequestMethod.POST)

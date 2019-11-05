@@ -1,9 +1,6 @@
 package com.good.dao;
 
-import com.good.model.BoardSearch;
-import com.good.model.BoardVO;
-import com.good.model.Pagination;
-import com.good.model.ReplyVO;
+import com.good.model.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -22,4 +19,6 @@ public interface BoardDAO {
     public int saveReply(ReplyVO replyVO) throws Exception;
     public int updateReply(ReplyVO replyVO) throws Exception;
     public int deleteReply(int rid) throws Exception;
+
+    List<ReReplyVO> getReplyReplyList(int rid);
 }

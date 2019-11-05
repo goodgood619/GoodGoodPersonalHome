@@ -13,6 +13,13 @@
         order by reg_gt desc
     </select>
 
+    <select id = "getReplyReplyList" resultType="com.good.model.ReReplyVO" parameterType="int">
+        select rrid,rid,content,reg_id,reg_gt,edit_gt,id,readonlyorwrite
+        from board_rereply
+        where rid = #{rid}
+        order by reg_gt desc
+    </select>
+
     <insert id = "saveReply" parameterType="com.good.model.ReplyVO">
         insert into board_reply(rid,bid,content,reg_id,reg_gt,edit_gt,id,readonlyorwrite)
         values(#{rid},#{bid},#{content},#{reg_id},now(),now(),#{id},1)

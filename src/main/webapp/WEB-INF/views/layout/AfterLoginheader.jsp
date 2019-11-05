@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 
-    <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+    <%@ page contentType="text/html;charset=UTF-8"  pageEncoding="UTF-8" %>
     <!-- jquery -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" type="text/javascript"></script>
 
@@ -43,7 +43,7 @@
     <a class="nav-link" href="#" onclick="fn_boardgetBoardList()">Board<span class="sr-only">(current)</span></a>
     </li>
     <li class="nav-item">
-    <a class="nav-link" href="#">Q&A</a>
+    <a class="nav-link" href="#">방명록</a>
     </li>
     <li class="nav-item">
     <a class="nav-link" href="#" onclick="fn_showMemberStatus()">회원정보</a>

@@ -2,10 +2,7 @@ package com.good.service;
 
 import com.good.controller.NotFoundException;
 import com.good.dao.BoardDAO;
-import com.good.model.BoardSearch;
-import com.good.model.BoardVO;
-import com.good.model.Pagination;
-import com.good.model.ReplyVO;
+import com.good.model.*;
 import com.good.utils.UploadFileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -113,6 +110,11 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public int deleteReply(int rid) throws Exception {
         return boardDAO.deleteReply(rid);
+    }
+
+    @Override
+    public List<ReReplyVO> getReplyReplyList(int rid) {
+        return boardDAO.getReplyReplyList(rid);
     }
 
 }

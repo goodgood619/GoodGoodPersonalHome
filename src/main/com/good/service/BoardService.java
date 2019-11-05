@@ -1,9 +1,6 @@
 package com.good.service;
 
-import com.good.model.BoardSearch;
-import com.good.model.BoardVO;
-import com.good.model.Pagination;
-import com.good.model.ReplyVO;
+import com.good.model.*;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,4 +22,6 @@ public interface BoardService {
     int saveReply(ReplyVO replyVO) throws Exception;
     int updateReply(ReplyVO replyVO) throws Exception;
     int deleteReply(int rid) throws Exception;
+
+    List<ReReplyVO> getReplyReplyList(int rid);
 }
