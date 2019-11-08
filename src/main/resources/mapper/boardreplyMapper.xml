@@ -14,15 +14,20 @@
     </select>
 
     <select id = "getReplyReplyList" resultType="com.good.model.ReReplyVO" parameterType="int">
-        select rrid,rid,content,reg_id,reg_gt,edit_gt,id,readonlyorwrite
+        select rrid,rid,r_content,r_reg_id,r_reg_gt,r_edit_gt,id,r_readonlyorwrite
         from board_rereply
         where rid = #{rid}
-        order by reg_gt desc
+        order by r_reg_gt desc
     </select>
 
     <insert id = "saveReply" parameterType="com.good.model.ReplyVO">
         insert into board_reply(rid,bid,content,reg_id,reg_gt,edit_gt,id,readonlyorwrite)
         values(#{rid},#{bid},#{content},#{reg_id},now(),now(),#{id},1)
+    </insert>
+
+    <insert id = "saveReReply" parameterType="com.good.model.ReReplyVO">
+        insert into board_rereply(rrid,rid,r_content,r_reg_id,r_reg_gt,r_edit_gt,id,r_readonlyorwrite)
+        values(#{rrid},#{rid},#{r_content},#{r_reg_id},now(),now(),#{id},#{r_readonlyorwrite})
     </insert>
 
     <update id = "updateReply" parameterType="com.good.model.ReplyVO" >
@@ -31,9 +36,20 @@
         where rid = #{rid}
     </update>
 
+    <update id = "updateReReply" parameterType="com.good.model.ReReplyVO">
+        update board_rereply
+        set r_content = #{r_content}, r_edit_gt = now()
+        where rrid = #{rrid}
+    </update>
+
     <delete id = "deleteReply" parameterType="int">
         delete from board_reply
         where rid = #{rid}
+    </delete>
+
+    <delete id = "deleteReReply" parameterType = "int">
+        delete from board_rereply
+        where rrid = #{rrid}
     </delete>
 
 </mapper>

@@ -9,11 +9,12 @@ public class ReReplyVO {
     private String r_edit_gt;
     private String id;
     private int r_readonlyorwrite;
-    public int getReadonlyorwrite() {
+
+    public int getR_readonlyorwrite() {
         return r_readonlyorwrite;
     }
 
-    public void setReadonlyorwrite(int r_readonlyorwrite) {
+    public void setR_readonlyorwrite(int r_readonlyorwrite) {
         this.r_readonlyorwrite = r_readonlyorwrite;
     }
 

@@ -8,17 +8,19 @@ import java.util.concurrent.ExecutionException;
 
 
 public interface BoardDAO {
-    public List<BoardVO> getBoardList(BoardSearch boardSearch) throws Exception;
-    public BoardVO getBoardContent(int bid) throws Exception;
-    public int insertBoard(BoardVO boardVO) throws Exception;
-    public int updateBoard(BoardVO boardVO) throws Exception;
-    public int deleteBoard(int bid) throws Exception;
-    public int updateViewCnt(int bid) throws Exception;
-    public int getBoardListCnt(BoardSearch boardSearch) throws Exception;
-    public List<ReplyVO> getReplyList(int bid) throws Exception;
-    public int saveReply(ReplyVO replyVO) throws Exception;
-    public int updateReply(ReplyVO replyVO) throws Exception;
-    public int deleteReply(int rid) throws Exception;
-
+    List<BoardVO> getBoardList(BoardSearch boardSearch) throws Exception;
+    BoardVO getBoardContent(int bid) throws Exception;
+    int insertBoard(BoardVO boardVO) throws Exception;
+    int updateBoard(BoardVO boardVO) throws Exception;
+    int deleteBoard(int bid) throws Exception;
+    int updateViewCnt(int bid) throws Exception;
+    int getBoardListCnt(BoardSearch boardSearch) throws Exception;
+    List<ReplyVO> getReplyList(int bid) throws Exception;
+    int saveReply(ReplyVO replyVO) throws Exception;
+    int updateReply(ReplyVO replyVO) throws Exception;
+    int deleteReply(int rid) throws Exception;
     List<ReReplyVO> getReplyReplyList(int rid);
+    void saveReReply(ReReplyVO reReplyVO);
+    void updateReReply(ReReplyVO reReplyVO);
+    void deleteReReply(int rrid);
 }

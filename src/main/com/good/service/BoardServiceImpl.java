@@ -17,7 +17,7 @@ import java.util.Map;
 
 @Service
 @Transactional
-public class BoardServiceImpl implements BoardService{
+            public class BoardServiceImpl implements BoardService{
     private final BoardDAO boardDAO;
     @Autowired
     private String uploadPath;
@@ -115,6 +115,21 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public List<ReReplyVO> getReplyReplyList(int rid) {
         return boardDAO.getReplyReplyList(rid);
+    }
+
+    @Override
+    public void saveReReply(ReReplyVO reReplyVO) {
+        boardDAO.saveReReply(reReplyVO);
+    }
+
+    @Override
+    public void updateReReply(ReReplyVO reReplyVO) {
+        boardDAO.updateReReply(reReplyVO);
+    }
+
+    @Override
+    public void deleteReReply(int rrid) {
+        boardDAO.deleteReReply(rrid);
     }
 
 }

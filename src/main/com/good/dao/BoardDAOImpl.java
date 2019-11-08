@@ -77,4 +77,19 @@ public class BoardDAOImpl implements BoardDAO{
     public List<ReReplyVO> getReplyReplyList(int rid) {
         return sqlSession.selectList("mapper.boardreplyMapper.getReplyReplyList",rid);
     }
+
+    @Override
+    public void saveReReply(ReReplyVO reReplyVO) {
+        sqlSession.insert("mapper.boardreplyMapper.saveReReply",reReplyVO);
+    }
+
+    @Override
+    public void updateReReply(ReReplyVO reReplyVO) {
+        sqlSession.update("mapper.boardreplyMapper.updateReReply",reReplyVO);
+    }
+
+    @Override
+    public void deleteReReply(int rrid) {
+        sqlSession.delete("mapper.boardreplyMapper.deleteReReply",rrid);
+    }
 }

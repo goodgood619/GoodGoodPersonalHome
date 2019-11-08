@@ -22,6 +22,8 @@ public interface BoardService {
     int saveReply(ReplyVO replyVO) throws Exception;
     int updateReply(ReplyVO replyVO) throws Exception;
     int deleteReply(int rid) throws Exception;
-
     List<ReReplyVO> getReplyReplyList(int rid);
+    void saveReReply(ReReplyVO reReplyVO);
+    void updateReReply(ReReplyVO reReplyVO);
+    void deleteReReply(int rrid);
 }

@@ -1,9 +1,6 @@
 package com.good.controller;
 
-import com.good.model.BoardSearch;
-import com.good.model.BoardVO;
-import com.good.model.ReplyVO;
-import com.good.model.UserVO;
+import com.good.model.*;
 import com.good.service.BoardService;
 import com.good.utils.UploadFileUtils;
 import net.sf.json.JSONObject;
@@ -92,6 +89,7 @@ public class BoardController {
         }
         model.addAttribute("boardContent",boardVO);
         model.addAttribute("replyVO",new ReplyVO());
+        model.addAttribute("rereplyVO",new ReReplyVO());
         return "board/boardContent";
     }
 
@@ -141,7 +139,7 @@ public class BoardController {
     }
 
     @RequestMapping(value = "/deleteBoard", method = RequestMethod.GET)
-    public String deleteBoard(RedirectAttributes redirectAttributes,@RequestParam("bid") int bid) throws Exception{
+    public String deleteBoard(@RequestParam("bid") int bid) throws Exception{
         boardService.deleteBoard(bid);
         return "redirect:/board/getBoardList";
     }
