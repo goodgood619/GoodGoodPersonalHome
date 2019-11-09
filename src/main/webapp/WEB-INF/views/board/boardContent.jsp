@@ -213,14 +213,14 @@
         function showReplyReplyList(reReplyVOList,rid,index) {
             var rhtmls = [];
             if(reReplyVOList.length > 0) {
-                    // 읽을수 있지만 수정은 불가능한것
+                // 읽을수 있지만 수정은 불가능한것
                 $.each(reReplyVOList,function (index) {
                     if (reReplyVOList[index].r_readonlyorwrite === 0) {
+                        rhtmls += '<p class = "reReply1">';
                         rhtmls += '<div class="media text-muted pt-3" id="rrid' + reReplyVOList[index].rrid + '">';
                         rhtmls += '<svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder:32x32">';
                         rhtmls += '<title>Placeholder</title>';
-                        rhtmls += '<rect width="100%" height="100%" fill="#007bff"></rect>';
-                        rhtmls += '<text x="50%" fill="#007bff" dy=".3em">32x32</text>';
+                        rhtmls += '<rect width="100%" height="100%" fill="#979797"></rect>';
                         rhtmls += '</svg>';
                         rhtmls += '<p class="media-body pb-3 mb-0 small lh-125 border-bottom horder-gray">';
                         rhtmls += '<span class="d-block">';
@@ -233,13 +233,14 @@
                         rhtmls += '</p>';
                         rhtmls += '</p>';
                         rhtmls += '</div>';
+                        rhtmls += '</p>';
                     }
                     else { //읽을수 있고, 수정 혹은 삭제도 가능한것
+                        rhtmls += '<p class="reReply2">';
                         rhtmls += '<div class="media text-muted pt-3" id="rrid' + reReplyVOList[index].rrid + '">';
                         rhtmls += '<svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder:32x32">';
                         rhtmls += '<title>Placeholder</title>';
-                        rhtmls += '<rect width="100%" height="100%" fill="#007bff"></rect>';
-                        rhtmls += '<text x="50%" fill="#007bff" dy=".3em">32x32</text>';
+                        rhtmls += '<rect width="100%" height="100%" fill="#979797"></rect>';
                         rhtmls += '</svg>';
                         rhtmls += '<p class="media-body pb-3 mb-0 small lh-125 border-bottom horder-gray">';
                         rhtmls += '<span class="d-block">';
@@ -254,9 +255,11 @@
                         rhtmls += '</p>';
                         rhtmls += '</p>';
                         rhtmls += '</div>';
+                        rhtmls += '</p>';
                     }
                 })
             }
+            rhtmls += '<p class = "reReply3">';
             rhtmls += '<div class="my-3 p-3 bg-white rounded shadow-sm" style="padding-top: 10px">';
             rhtmls +=  '<form:form name="form" id="form" role="form" modelAttribute="rereplyVO" method="post">';
             rhtmls += '<div class="row">';
@@ -270,8 +273,15 @@
             rhtmls += '</div>' ;
             rhtmls += '</form:form>';
             rhtmls +='</div>';
+            rhtmls += '</p>';
             return rhtmls;
         }
+
+        $(document).on('click','#btnReClick',function () {
+            $('#reReply1').toggle();
+            $('#reReply2').toggle();
+            $('#reReply3').toggle();
+        });
         function showReplyList() {
             var url = "${pageContext.request.contextPath}/restBoard/getReplyList";
             var paramdata = {"bid":"${boardContent.bid}"};
@@ -303,9 +313,10 @@
                                 htmls += '</span>';
                                 htmls += '</span>';
                                 htmls += this.content;
-                                htmls += showReplyReplyList(this.reReplyVOList,this.rid,index);
                                 htmls += '</p>';
+                                htmls += '<button type= "button" class="btn btn-sm btn-primary" id="btnReClick">답글</button>';
                                 htmls += '</div>';
+                                htmls = showReplyReplyList(this.reReplyVOList,this.rid,index);
                             }
                             else {
                                 htmls += '<div class="media text-muted pt-3" id="rid' + this.rid + '">';
@@ -322,11 +333,11 @@
                                 htmls += '</span>';
                                 htmls += this.content;
                                 htmls += '<p style="padding-left: 7px; font-size:9pt">';
-                                var uhtmls = showReplyReplyList(this.reReplyVOList,this.rid,index);
-                                htmls += uhtmls;
                                 htmls += '</p>';
+                                htmls += '<button type= "button" class="btn btn-sm btn-primary" id="btnReClick">답글</button>';
                                 htmls += '</p>';
                                 htmls += '</div>';
+                                htmls += showReplyReplyList(this.reReplyVOList,this.rid,index);
                             }
                         });
                     }
