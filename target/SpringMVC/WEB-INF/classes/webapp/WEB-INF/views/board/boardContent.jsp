@@ -60,6 +60,7 @@
         // 초기에 로딩할때, 댓글보여주기 리스트
         $(document).ready(function () {
             showReplyList();
+            $('#btnReClick').trigger('click');
         });
        function fn_btnReReplySave(rid,index){
             var url = "${pageContext.request.contextPath}/restBoard/saveReReply";
@@ -214,7 +215,7 @@
             var rhtmls = [];
             if(reReplyVOList.length > 0) {
                 // 읽을수 있지만 수정은 불가능한것
-                rhtmls += '<div id = "aRereplyrid' + rid + '">';
+                rhtmls += '<div id = "aRereplyrid' + rid + '" style = "display: none">';
                 $.each(reReplyVOList,function (index) {
                     if (reReplyVOList[index].r_readonlyorwrite === 0) {
                         rhtmls += '<div class="media text-muted pt-3" id="rrid' + reReplyVOList[index].rrid + '">';
@@ -257,7 +258,7 @@
                 });
                 rhtmls += '</div>';
             }
-            rhtmls += '<div class="my-3 p-3 bg-white rounded shadow-sm" style="padding-top: 10px" id = "bRereplyrid' + rid + '">';
+            rhtmls += '<div class="my-3 p-3 bg-white rounded shadow-sm" style="display: none" id = "bRereplyrid' + rid + '" >';
             rhtmls +=  '<form:form name="form" id="form" role="form" modelAttribute="rereplyVO" method="post">';
             rhtmls += '<div class="row">';
             rhtmls+=  '<div class="col-sm-10">';
@@ -274,9 +275,7 @@
         }
 
         function btnReClick(rid) {
-            var test = '#aRereplyrid';
-            test += rid;
-            $(test).toggle();
+            $('#aRereplyrid'+rid).toggle();
             $('#bRereplyrid'+rid).toggle();
         }
         function showReplyList() {
