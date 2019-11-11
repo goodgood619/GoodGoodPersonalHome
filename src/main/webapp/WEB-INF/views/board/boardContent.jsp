@@ -214,9 +214,9 @@
             var rhtmls = [];
             if(reReplyVOList.length > 0) {
                 // 읽을수 있지만 수정은 불가능한것
+                rhtmls += '<div id = "aRereplyrid' + rid + '">';
                 $.each(reReplyVOList,function (index) {
                     if (reReplyVOList[index].r_readonlyorwrite === 0) {
-                        rhtmls += '<p class = "reReply1">';
                         rhtmls += '<div class="media text-muted pt-3" id="rrid' + reReplyVOList[index].rrid + '">';
                         rhtmls += '<svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder:32x32">';
                         rhtmls += '<title>Placeholder</title>';
@@ -233,10 +233,8 @@
                         rhtmls += '</p>';
                         rhtmls += '</p>';
                         rhtmls += '</div>';
-                        rhtmls += '</p>';
                     }
                     else { //읽을수 있고, 수정 혹은 삭제도 가능한것
-                        rhtmls += '<p class="reReply2">';
                         rhtmls += '<div class="media text-muted pt-3" id="rrid' + reReplyVOList[index].rrid + '">';
                         rhtmls += '<svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder:32x32">';
                         rhtmls += '<title>Placeholder</title>';
@@ -255,12 +253,11 @@
                         rhtmls += '</p>';
                         rhtmls += '</p>';
                         rhtmls += '</div>';
-                        rhtmls += '</p>';
                     }
-                })
+                });
+                rhtmls += '</div>';
             }
-            rhtmls += '<p class = "reReply3">';
-            rhtmls += '<div class="my-3 p-3 bg-white rounded shadow-sm" style="padding-top: 10px">';
+            rhtmls += '<div class="my-3 p-3 bg-white rounded shadow-sm" style="padding-top: 10px" id = "bRereplyrid' + rid + '">';
             rhtmls +=  '<form:form name="form" id="form" role="form" modelAttribute="rereplyVO" method="post">';
             rhtmls += '<div class="row">';
             rhtmls+=  '<div class="col-sm-10">';
@@ -273,15 +270,15 @@
             rhtmls += '</div>' ;
             rhtmls += '</form:form>';
             rhtmls +='</div>';
-            rhtmls += '</p>';
             return rhtmls;
         }
 
-        $(document).on('click','#btnReClick',function () {
-            $('#reReply1').toggle();
-            $('#reReply2').toggle();
-            $('#reReply3').toggle();
-        });
+        function btnReClick(rid) {
+            var test = '#aRereplyrid';
+            test += rid;
+            $(test).toggle();
+            $('#bRereplyrid'+rid).toggle();
+        }
         function showReplyList() {
             var url = "${pageContext.request.contextPath}/restBoard/getReplyList";
             var paramdata = {"bid":"${boardContent.bid}"};
@@ -314,9 +311,9 @@
                                 htmls += '</span>';
                                 htmls += this.content;
                                 htmls += '</p>';
-                                htmls += '<button type= "button" class="btn btn-sm btn-primary" id="btnReClick">답글</button>';
+                                htmls += '<button type= "button" class="btn btn-sm btn-primary" onclick="btnReClick('+ this.rid + ')">답글</button>';
                                 htmls += '</div>';
-                                htmls = showReplyReplyList(this.reReplyVOList,this.rid,index);
+                                htmls += showReplyReplyList(this.reReplyVOList,this.rid,index);
                             }
                             else {
                                 htmls += '<div class="media text-muted pt-3" id="rid' + this.rid + '">';
@@ -334,7 +331,7 @@
                                 htmls += this.content;
                                 htmls += '<p style="padding-left: 7px; font-size:9pt">';
                                 htmls += '</p>';
-                                htmls += '<button type= "button" class="btn btn-sm btn-primary" id="btnReClick">답글</button>';
+                                htmls += '<button type= "button" class="btn btn-sm btn-primary" onclick="btnReClick('+ this.rid + ')">답글</button>';
                                 htmls += '</p>';
                                 htmls += '</div>';
                                 htmls += showReplyReplyList(this.reReplyVOList,this.rid,index);
