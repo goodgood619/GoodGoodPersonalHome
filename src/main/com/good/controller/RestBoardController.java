@@ -34,15 +34,17 @@ public class RestBoardController {
         for (int i = 0 ; i < replyVOList.size(); i++) {
             if(replyVOList.get(i).getId() == null) continue;
             List<ReReplyVO> reReplyVOList = boardService.getReplyReplyList(replyVOList.get(i).getRid());
-            for(int j =0 ;j<reReplyVOList.size();j++){
-                if(!reReplyVOList.get(j).getId().equals(userVO.getId())) {
-                    reReplyVOList.get(j).setR_readonlyorwrite(0);
+            if(reReplyVOList != null) {
+                for (int j = 0; j < reReplyVOList.size(); j++) {
+                    if (!reReplyVOList.get(j).getId().equals(userVO.getId())) {
+                        reReplyVOList.get(j).setR_readonlyorwrite(0);
+                    }
                 }
-            }
-            replyVOList.get(i).setReReplyVOList(reReplyVOList);
-            if (replyVOList.get(i).getId().equals(userVO.getId())) continue;
-            else {
-                replyVOList.get(i).setReadonlyorwrite(0);
+                replyVOList.get(i).setReReplyVOList(reReplyVOList);
+                if (replyVOList.get(i).getId().equals(userVO.getId())) continue;
+                else {
+                    replyVOList.get(i).setReadonlyorwrite(0);
+                }
             }
         }
 

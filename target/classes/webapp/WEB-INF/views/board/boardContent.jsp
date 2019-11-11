@@ -62,10 +62,18 @@
             showReplyList();
             $('#btnReClick').trigger('click');
         });
-       function fn_btnReReplySave(rid,index){
+       function fn_btnReReplySave(rid,index,Maxlength){
             var url = "${pageContext.request.contextPath}/restBoard/saveReReply";
-            var rereplyContent = r_content[index].value;
-            var rereplyReg_id = r_reg_id[index].value;
+            var rereplyContent= "";
+            var rereplyReg_id = "";
+            if(Maxlength >= 2) {
+               rereplyContent = r_content[index].value;
+               rereplyReg_id = r_reg_id[index].value;
+            }
+            else {
+                rereplyContent = r_content.value;
+                rereplyReg_id = r_reg_id.value;
+            }
             var paramdata = JSON.stringify({"rid":rid,"r_content":rereplyContent,"r_reg_id":rereplyReg_id});
             var headers = {"Content-Type":"application/json","X-HTTP-Method-Override":"POST"};
             $.ajax({
@@ -211,7 +219,7 @@
 
             });
         }
-        function showReplyReplyList(reReplyVOList,rid,index) {
+        function showReplyReplyList(reReplyVOList,rid,index,Maxlength) {
             var rhtmls = [];
             if(reReplyVOList.length > 0) {
                 // 읽을수 있지만 수정은 불가능한것
@@ -258,7 +266,7 @@
                 });
                 rhtmls += '</div>';
             }
-            rhtmls += '<div class="my-3 p-3 bg-white rounded shadow-sm" style="display: none" id = "bRereplyrid' + rid + '" >';
+            rhtmls += '<div class="my-3 p-3 bg-white rounded shadow-sm" style="display:none" id = "bRereplyrid' + rid + '" >';
             rhtmls +=  '<form:form name="form" id="form" role="form" modelAttribute="rereplyVO" method="post">';
             rhtmls += '<div class="row">';
             rhtmls+=  '<div class="col-sm-10">';
@@ -266,7 +274,7 @@
             rhtmls += '</div>';
             rhtmls += '<div class="col-sm-2">';
             rhtmls += '<input class="form-control" id="r_reg_id" placeholder="답글 작성자">';
-            rhtmls += '<button type="button" class="btn btn-sm btn-primary" onclick="fn_btnReReplySave(' +rid + ', \''+ index + '\')" style="width: 100%; margin-top: 10px"> 저장 </button>';
+            rhtmls += '<button type="button" class="btn btn-sm btn-primary" onclick="fn_btnReReplySave(' +rid + ', \''+ index + '\',\'' + Maxlength + '\')" style="width: 100%; margin-top: 10px"> 저장 </button>';
             rhtmls += '</div>';
             rhtmls += '</div>' ;
             rhtmls += '</form:form>';
@@ -292,6 +300,7 @@
                         htmls.push("등록된 댓글이 없습니다.");
                     }
                     else {
+                         var replyLength = result.length;
                         $(result).each(function (index) {
                             if(this.readonlyorwrite === 1) {
                                 htmls += '<div class="media text-muted pt-3" id="rid' + this.rid + '">';
@@ -312,7 +321,7 @@
                                 htmls += '</p>';
                                 htmls += '<button type= "button" class="btn btn-sm btn-primary" onclick="btnReClick('+ this.rid + ')">답글</button>';
                                 htmls += '</div>';
-                                htmls += showReplyReplyList(this.reReplyVOList,this.rid,index);
+                                htmls += showReplyReplyList(this.reReplyVOList,this.rid,index,replyLength);
                             }
                             else {
                                 htmls += '<div class="media text-muted pt-3" id="rid' + this.rid + '">';
@@ -333,7 +342,7 @@
                                 htmls += '<button type= "button" class="btn btn-sm btn-primary" onclick="btnReClick('+ this.rid + ')">답글</button>';
                                 htmls += '</p>';
                                 htmls += '</div>';
-                                htmls += showReplyReplyList(this.reReplyVOList,this.rid,index);
+                                htmls += showReplyReplyList(this.reReplyVOList,this.rid,index,replyLength);
                             }
                         });
                     }
