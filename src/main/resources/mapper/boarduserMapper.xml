@@ -66,8 +66,8 @@
     </select>
 
     <insert id = "insertUser" parameterType="com.good.model.UserVO">
-        insert into board_user(id,name,pwd,email,grade,reg_gt,cellphone)
-        values(#{id},#{name},#{pwd},#{email},null,now(),#{cellphone})
+        insert into board_user(id,name,pwd,email,ownerornot,reg_gt,cellphone)
+        values(#{id},#{name},#{pwd},#{email},0,now(),#{cellphone})
     </insert>
     
     <update id="updateUser" parameterType="com.good.model.UserVO">

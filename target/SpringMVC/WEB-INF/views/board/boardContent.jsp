@@ -66,10 +66,11 @@
             var url = "${pageContext.request.contextPath}/restBoard/saveReReply";
             var rereplyContent= "";
             var rereplyReg_id = "";
+            // 댓글이 2개이상일때
             if(Maxlength >= 2) {
                rereplyContent = r_content[index].value;
                rereplyReg_id = r_reg_id[index].value;
-            }
+            } //그렇지 않을때
             else {
                 rereplyContent = r_content.value;
                 rereplyReg_id = r_reg_id.value;
