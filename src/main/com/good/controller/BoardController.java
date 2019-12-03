@@ -33,7 +33,7 @@ public class BoardController {
     @Autowired
     private String uploadPath;
 
-    // commit test(new notebook)
+    // commit test
     @GetMapping("/getBoardList")
     public String getBoardList(Model model,@RequestParam(required = false,defaultValue = "1") int page,@RequestParam(required = false,defaultValue = "1") int range,@RequestParam(required = false,defaultValue = "title") String searchType,@RequestParam(required = false) String keyword) throws Exception {
         BoardSearch boardSearch = new BoardSearch();
