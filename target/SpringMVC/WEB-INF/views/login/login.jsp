@@ -71,6 +71,9 @@
         <c:if test="${msg == 'false'}">
             alert('아이디 혹은 패스워드가 틀렸습니다. 다시 입력해주세요');
         </c:if>
+        <c:if test="${msg == 'false2'}">
+            alert('이 아이디는 중복 로그인 되었습니다. ');
+        </c:if>
     </script>
 </article>
 

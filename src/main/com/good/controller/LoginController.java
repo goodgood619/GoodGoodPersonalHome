@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.inject.Inject;
+import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionBindingEvent;
 import java.util.HashMap;
 
 @Controller
@@ -64,8 +66,14 @@ public class LoginController {
         hashMap.put("id",userVO.getId());
         hashMap.put("pwd",userVO.getPwd());
         UserVO resultuserVO = userService.getLoginInfo(hashMap);
+
+        if(SessionListener.getInstance().isUsing(userVO.getId())){
+            redirectAttributes.addFlashAttribute("msg","false2");
+            return "redirect:/login/doinitLogin";
+        }
         if(resultuserVO != null){
             httpSession.setAttribute("member",resultuserVO);
+            SessionListener.getInstance().valueBound(httpSession);
             return "redirect:/board/getBoardList";
         }
         else {
@@ -75,7 +83,8 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/doLogout",method = RequestMethod.GET)
-    public String doLogout(HttpSession httpSession){
+    public String doLogout(HttpSession httpSession) {
+        SessionListener.getInstance().valueUnbound(httpSession);
         httpSession.invalidate();
         return "redirect:/login/doinitLogin";
     }
