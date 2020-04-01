@@ -17,7 +17,7 @@ import java.util.Map;
 
 @Service
 @Transactional
-            public class BoardServiceImpl implements BoardService{
+public class BoardServiceImpl implements BoardService{
     private final BoardDAO boardDAO;
     @Autowired
     private String uploadPath;
