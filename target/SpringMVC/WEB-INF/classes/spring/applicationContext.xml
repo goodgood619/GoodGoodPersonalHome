@@ -21,7 +21,7 @@
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
         <property name="url" value="jdbc:mysql://127.0.0.1:3306/springtestdb?useSSL=false&amp;serverTimezone=Asia/Seoul" />
-        <property name="username" value="gktgnjftm"/>
+        <property name="username" value="root"/>
         <property name="password" value="dkqrnjs2"/>
     </bean>
 
@@ -42,7 +42,7 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <!--image 경로 설정-->
+    <!--image 경로 설정(이건 각환경에 맞게 세팅을 해도됩니다(그러나 윈도우환경에 맞게 절대경로를 설정함))-->
     <bean class = "java.lang.String" id="uploadPath" name="uploadPath">
         <constructor-arg value="C:\Users\USER\IdeaProjects\GoodGoodPersonalHome\src\main\webapp\resources\"/>
     </bean>

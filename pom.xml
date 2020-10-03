@@ -263,6 +263,16 @@
           <artifactId>maven-deploy-plugin</artifactId>
           <version>2.8.2</version>
         </plugin>
+        <plugin>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-maven-plugin</artifactId>
+          <configuration>
+            <jvmArguments>
+              --add-exports=java.base/jdk.internal.misc=ALL-UNNAMED
+              --add-exports=java.base/sun.nio.ch=ALL-UNNAMED
+            </jvmArguments>
+          </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>

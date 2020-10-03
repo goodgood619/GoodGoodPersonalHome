@@ -1,15 +1,55 @@
 # GoodGoodPersonalHome
 
-## 목적
+## Introduction
 회원 가입, 로그인, 게시판 연동 구현을 목적으로 기획된 웹 서비스
 
-## 적용 기술
-**JSP**, **JQuery**, **Ajax**, **Spring**, **MySQL**
+## Technology
+**JSP** **JQuery** **Ajax** **Spring** **MySQL**
 
-## 실행 순서
-1. git clone https://github.com/goodgood619/SpringMVC.git  
-2. WAS(Tomcat) Server 설정  
-3. WAS 설정시 Application context 칸을 전부 비울것 
-4. 실행하기 전에 main폴더를 sources as root로 설정
-5. MySQL의 schema : springtestdb, table : board, board_user, board_reply,board_rereply, board_user 등 설정
-6. 실행
+### Version
+
+---
+
+|Project Environment|Version|
+|:---:|:---:|
+|`Spring`|4.3|
+|`MYSQL`|8.0|
+|`maven` |3.6.3|
+
+### how to execute GoodGoodPersonalHome
+
+```bash
+git clone https://github.com/goodgood619/SpringMVC.git  
+```
+
+**Environment : Intellij IDEA** 
+
+and then go Run/Debug Configurations, add Tomcat Server(Local), like below a picture
+![execute1](execute-1.png)
+
+and Configure Application Server, and set tomcat path like a below picture
+
+![execute2](execute-2.png)
+
+and set JRE, under Version openjdk 11, or 1.8
+![execute3](execute-3.png)
+
+and go Deployment add war:exploded, please make sure empty ApplicationContext like below picture 
+![execute4](execute-4.png)
+
+and make sure src/main as Source root
+
+![execute5](execute-6.PNG)
+
+and last, Default MYSQL Schema is springtestdb  
+tables : board, board_user, board_reply,board_rereply, board_menu, board_cellphone  
+(I will upload DataBase Diagram later, Sorry)
+
+
+### Use
+
+---
+
+1. first, http://localhost:8080/login/doinitLogin
+2. and then signUp 
+3. use board System 
