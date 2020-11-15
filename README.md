@@ -12,8 +12,6 @@
 
 ![architecture](assets/image/GoodGoodPersonalHome_Architecture.PNG)
 
----
-
 ### Version
 
 ---
